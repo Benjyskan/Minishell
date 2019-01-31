@@ -9,20 +9,22 @@ void	cd_not_found(char **args, char **env)
 }
 
 /*
-** cd -: cd to OLD_PWD
+** cd -: cd to OLD_PWD (and print the absolute path ?)
 ** cd : cd to ~
 ** cd return 0 if succesfull
 ** cd return 1 if it fail
 **
-** cd reset PWD and OLDPWD even if they don4t exist anymore
+** cd reset PWD and OLDPWD even if they don't exist anymore
 */
 
 int		my_cd(char **args, char **env)
 {
-	if (!args[1])
+	if (!args[1] || ft_strcmp(args[1], "~") == 0)
 	{
-		if (chdir("~") == -1)//find HOME in env
+		if (chdir(HOME) == -1)//i should find HOME in env
+		{
 			printf("~\n");
+		}
 		return (0);
 	}
 	else if (args[1])//bof

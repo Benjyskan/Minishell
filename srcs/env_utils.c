@@ -33,7 +33,55 @@ void	add_env_var(char **my_env, char *new_var)
 	//add a new var at the end of env and null terminat env
 }
 
-char	*append_path(const char *path, const char *prog_name)//malloc
+/*
+** if envp: MALLOC
+** else: return NULL  or should i malloc a mini_env ?
+*/
+
+//envp is NULL terminated
+//when adding a new variable, replace the last line (NULL) and add a new NULL
+char	**cpy_envp(char **envp)
+{
+	int	tab_len;
+	char			**my_env;
+	int				i;
+
+	if (!*envp)
+	{
+		ft_putendl("env is NULL");
+		my_env = NULL;// ou mini_env ?
+		return (my_env);
+	}
+	tab_len = get_ntab_len(envp);
+	printf("env len: %d\n", tab_len);
+	if (!(my_env = (char**)malloc(sizeof(char**) * (tab_len + 1))))
+		ERROR_MEM;
+	my_env[tab_len] = NULL;
+	i = -1;
+	while (++i < (int)tab_len)
+		my_env[i] = ft_strdup(envp[i]);
+	return (my_env);
+}
+
+/*
+** set my_env via address
+*/
+
+int		init_env(char **envp, t_myenv *my_env)
+{
+	if (*envp)
+	{
+		my_env->envp = cpy_envp(envp);
+	}
+	//set HOME
+	ft_bzero(my_env->home, PATH_MAX);
+	ft_strcpy(my_env->home, HOME);
+	//set PWD
+	//my_env.pwd = //getpwd();
+	return (1);
+}
+
+/*char	*append_path(const char *path, const char *prog_name)//malloc
 {
 	int		len;
 	char	*res;
@@ -51,41 +99,4 @@ char	*append_path(const char *path, const char *prog_name)//malloc
 	res[pathlen] = '/';
 	ft_strncpy((res + pathlen + 1), prog_name, dirlen);
 	return (res);
-}
-
-/*
-** if envp: MALLOC
-** else: return NULL
-*/
-
-//envp is NULL terminated
-//when adding a new variable, replace the last line (NULL) and add a new NULL
-char	**cpy_envp(char **envp)
-{
-	unsigned int	tab_len;
-	char			**my_env;
-	int				i;
-
-	if (!*envp)
-	{
-		ft_putendl("NNUULL");
-		//if no env, create mini env
-		//my_env = create_mini_env();//enfaite non
-		my_env = NULL;
-		return (my_env);
-	}
-	tab_len = get_ntab_len(envp);
-	ft_putnbr(tab_len);
-	printf("env len: %d\n", tab_len);
-	if (!(my_env = (char**)malloc(sizeof(char**) * tab_len)))
-		ERROR_MEM;
-	i = -1;
-	while (++i < (int)tab_len)
-	{
-		if (!(my_env[i] = (char*)malloc(sizeof(char*) * ft_strlen(envp[i]))))
-			ERROR_MEM;
-		my_env[i] = ft_strcpy(my_env[i], envp[i]);
-	}
-	my_env[i] = NULL;
-	return (my_env);
-}
+}*/

@@ -9,17 +9,17 @@ void	my_exit(char **args)
 		ac++;
 	if (ac == 1)
 	{
-		ft_putendl("exit");
+		ft_putendl_fd("exit", 2);
 		exit(0);
 	}
 	else if (ac > 1 && !is_str_digit(args[1]))
 	{
-		ft_putendl("exit");
+		ft_putendl_fd("exit", 2);
 		exit_not_digit(args[1]);
 	}
 	else if (ac == 2)
 	{
-		ft_putendl("exit");
+		ft_putendl_fd("exit", 2);
 		exit(ft_atoi(args[1]));
 	}
 	else

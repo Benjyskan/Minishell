@@ -10,6 +10,7 @@
 # include "libft.h"
 # define BUF_SIZE 124
 # define SHELL_NAME "my_sh"
+# define HOME "/Users/penzo" //Degueu
 # define ERROR_MEM exit(1) //naze
 # define ERROR_READ exit(1) //naze
 # define ERROR_EXEC exit(1) //naze
@@ -19,9 +20,9 @@
 typedef struct	s_myenv
 {
 	char		**envp;
-	char		*home;
-	char		*pwd;
-	char		*old_pwd;
+	char		home[PATH_MAX];
+	char		pwd[PATH_MAX];
+	char		old_pwd[PATH_MAX];
 }				t_myenv;
 
 /*
@@ -45,7 +46,7 @@ int				is_str_digit(char *str);
 void			reset_buf(char *buf, int *i);
 void			append_path_nomalloc(char *env_path, char *prog_name,
 		char *result);
-unsigned int	get_ntab_len(char **tab);
+int	get_ntab_len(char **tab);
 
 /*
 ** msg.c

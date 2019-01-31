@@ -34,9 +34,11 @@ void			reset_buf(char *buf, int *i)
 	ft_bzero(buf, BUF_SIZE);	
 }
 
-unsigned int	get_ntab_len(char **tab)//move to libft
+//unsigned int	get_ntab_len(char **tab)//move to libft
+int	get_ntab_len(char **tab)//move to libft
 {
-	unsigned int	i;
+	//unsigned int	i;
+	int	i;
 
 	if (!tab)
 		return (0);
