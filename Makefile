@@ -6,22 +6,25 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 17:50:27 by penzo             #+#    #+#              #
-#    Updated: 2019/01/27 20:06:41 by penzo            ###   ########.fr        #
+#    Updated: 2019/01/31 14:47:42 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	:= minishell
+#i think i'm not using .o at all
 
-CC		:= gcc
-WFLAGS	:= -Wextra -Wall#-Werror
-RM		:= rm -rf
+NAME	:=	minishell
 
-INCL	:= -I includes/ -I libft/
-LIBS    := -L libft -lft
-SRC		:= minishell.c built_in.c str_utils.c exits.c
-SRCS	:= $(addprefix srcs/, $(SRC))
-OBJS	:= $(SRCS:.c=.o)
-DEPS	:= includes/minishell.h
+CC		:=	gcc
+WFLAGS	:=	-Wextra -Wall#-Werror
+RM		:=	rm -rf
+
+INCL	:=	-I includes/ -I libft/
+LIBS    :=	-L libft -lft
+SRC		:=	minishell.c built_in.c str_utils.c exits.c env_utils.c msg.c \
+			prompt.c cd.c
+SRCS	:=	$(addprefix srcs/, $(SRC))
+OBJS	:=	$(SRCS:.c=.o)
+DEPS	:=	includes/minishell.h
 
 all: $(NAME)
 
@@ -47,4 +50,9 @@ re: fclean all
 
 d:	all
 	./$(NAME)
+
+fsa: $(OBJS) libft/libft.a Makefile
+	$(CC) $(WFLAGS) -g3 -fsanitize=address $(INCL) $(LIBS) -o $(NAME) $(SRCS)
+	./$(NAME)
+
 .PHONY: all clean fclean re
