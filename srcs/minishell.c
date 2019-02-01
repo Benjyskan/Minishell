@@ -24,10 +24,12 @@ int		search_prog(char *prog_path, char **args, char **envp)
 		{
 			prog_path = ft_strcpy(prog_path, path);
 			//free ici
+			free_nultab(env_paths);
 			return (1);
 		}
 	}
 	//free ici
+	free_nultab(env_paths);
 	return (0);
 }
 
@@ -40,6 +42,7 @@ void	my_exec(char *prog_path, char **args, char **envp)
 	{
 		if (execve(prog_path, args, envp) == -1)
 			ERROR_EXEC;
+		ft_putendl("OUIOUIOUIOUIOUIOUI");//this will never happen
 	}
 	else if (pid > 0)
 		wait(&pid);
