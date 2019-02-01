@@ -50,14 +50,14 @@ void	my_exec(char *prog_path, char **args, char **envp)
 		ERROR_FORK;
 }
 
-void	get_right_cmd(char **args, t_myenv my_env)
+void	get_right_cmd(char **args, t_myenv *my_env)
 {
 	int		pid;
 	char	prog_path[PATH_MAX];//pas sure
 
 	(void)pid;
 	//TODO: Free when i exit(built_in)
-	if (check_built_in(args, my_env.envp))//if else might be better
+	if (check_built_in(args, my_env))//if else might be better
 	{
 		free_nultab(args);
 		return ;//free args
@@ -65,8 +65,8 @@ void	get_right_cmd(char **args, t_myenv my_env)
 	//search_prog should return 1 if found, 0 otherwise
 	//and set prog_path
 	//if args start with a '/', i shouldn't use search_prog()
-	if (search_prog(prog_path, args, my_env.envp))
-		my_exec(prog_path, args, my_env.envp);
+	if (search_prog(prog_path, args, my_env->envp))
+		my_exec(prog_path, args, my_env->envp);
 	else
 		cmd_not_found(args[0]);
 	//free args
@@ -74,7 +74,7 @@ void	get_right_cmd(char **args, t_myenv my_env)
 }
 
 //chemin a chier
-void	get_cmd_args(char *line, t_myenv my_env)
+void	get_cmd_args(char *line, t_myenv *my_env)
 {
 	char	**args;
 
@@ -82,7 +82,7 @@ void	get_cmd_args(char *line, t_myenv my_env)
 	get_right_cmd(args, my_env);
 }
 
-int		loop(t_myenv my_env)
+int		loop(t_myenv *my_env)
 {
 	char	*buf;
 	char	c;
@@ -108,7 +108,7 @@ int		loop(t_myenv my_env)
 		}
 	}
 	ft_memdel((void*)&buf);//pas sure
-	free_nultab(my_env.envp);
+	free_nultab(my_env->envp);
 	ft_putendl_fd("exit", 2);//<C-d>
 	return (0);
 }
@@ -128,6 +128,6 @@ int		main(int argc, char **argv, char **envp)
 		//ft_put_nultab(my_env.envp);
 		//ft_put_nultab(envp);
 	}
-	loop(my_env);
+	loop(&my_env);
 	return (0);
 }

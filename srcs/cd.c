@@ -18,13 +18,16 @@ void	cd_not_found(char **args, char **env)
 ** cd reset PWD and OLDPWD even if they don't exist anymore
 */
 
-int		my_cd(char **args, char **env)
+int		my_cd(char **args, t_myenv *my_env)
 {
+	ft_putendl("MY CD");
 	if (!args[1] || ft_strcmp(args[1], "~") == 0)
 	{
-		if (chdir(HOME) == -1)//i should find HOME in env
+		//TODO: Expand ~
+		if (chdir(my_env->home) == -1)
 		{
-			printf("~\n");
+			cd_not_found(args, my_env->envp);
+			printf("~\n");//env HOME=sldkfjsldkfj ./minishell
 		}
 		return (0);
 	}
@@ -32,7 +35,7 @@ int		my_cd(char **args, char **env)
 	{
 		if (chdir(args[1]) == -1)
 		{
-			cd_not_found(args, env);
+			cd_not_found(args, my_env->envp);
 			return (1);
 		}
 		//else

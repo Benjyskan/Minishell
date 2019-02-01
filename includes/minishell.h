@@ -10,7 +10,6 @@
 # include "libft.h"
 # define BUF_SIZE 124 //TODO
 # define SHELL_NAME "my_sh"
-# define HOME "/Users/penzo" //Degueu
 # define ERROR_MEM exit(1) //naze
 # define ERROR_READ exit(1) //naze
 # define ERROR_EXEC exit(1) //naze
@@ -29,14 +28,14 @@ typedef struct	s_myenv //TODO a SHLVL var too
 ** built_in.c
 */
 
-int				check_built_in(char **args, char **env);
+int				check_built_in(char **args, t_myenv *my_env);
 
 /*
 ** cd.c
 */
 
 void			cd_not_found(char **args, char **env);
-int				my_cd(char **args, char **env);
+int				my_cd(char **args, t_myenv *my_env);
 
 /*
 ** str_utils.c

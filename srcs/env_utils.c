@@ -70,7 +70,7 @@ char	**cpy_envp(char **envp)
 	char			**my_env;
 	int				i;
 
-	if (!*envp)
+	if (!*envp)//useless, vu que je check dans la fonct precedente
 	{
 		my_env = NULL;// ou mini_env ?
 		return (my_env);
@@ -94,12 +94,20 @@ char	**cpy_envp(char **envp)
 int		init_env(char **envp, t_myenv *my_env)
 {
 	if (*envp)
+	{
 		my_env->envp = cpy_envp(envp);
+		//degueu, si on suppr HOME
+		ft_bzero(my_env->home, PATH_MAX);
+		ft_strcpy(my_env->home,
+				get_line_from_env("HOME", my_env->envp));
+	}
 	else
+	{
 		ft_putendl("env is NULL");
-	//set HOME
-	ft_bzero(my_env->home, PATH_MAX);
-	ft_strcpy(my_env->home, HOME);
+		ft_bzero(my_env->home, PATH_MAX);
+		ft_strcpy(my_env->home, getcwd(my_env->home, PATH_MAX));
+	}
+	ft_putendl(my_env->home);
 	//set PWD
 	//my_env.pwd = //getpwd();
 	return (1);

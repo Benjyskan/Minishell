@@ -26,10 +26,10 @@ void	my_exit(char **args, char **env)
 		exit_many_args();
 }
 
-int		my_echo(char **args, char **env)
+int		my_echo(char **args, t_myenv *my_env)
 {
 	(void)args;
-	(void)env;
+	(void)my_env;
 	printf("WEHEY ECHO\n");
 	return (0);
 }
@@ -41,17 +41,17 @@ int		my_echo(char **args, char **env)
 ** maybe useless ?
 */
 
-int		check_built_in(char **args, char **env)
+int		check_built_in(char **args, t_myenv *my_env)
 {
 	int		ret;
 
 	ret = 1;
 	if ((ft_strcmp(args[0], "exit")) == 0)
-		my_exit(args, env);
+		my_exit(args, my_env->envp);
 	else if ((ft_strcmp(args[0], "echo")) == 0)
-		my_echo(args, env);
+		my_echo(args, my_env);
 	else if ((ft_strcmp(args[0], "cd")) == 0)
-		my_cd(args, env);
+		my_cd(args, my_env);
 	else
 		ret = 0;
 	return (ret);
