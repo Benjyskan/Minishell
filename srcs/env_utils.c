@@ -1,6 +1,47 @@
 #include "minishell.h"
 
-char	*get_env_path(char **envp)
+/*
+** return 1 if env_line is = search until '='
+** return 0 otherwise
+*/
+
+int		get_envvar_name(char *search, char *env_line)
+{
+	int		i;
+
+	i = -1;
+	while (env_line[++i] != '=' )//&& env_line[i] && search[i])
+	{
+		if (search[i] != env_line[i])
+			return (0);
+	}
+	return (i);
+}
+
+/*
+** return a pointer to the correct line, after the '='
+** return NULL otherwise
+*/
+
+char	*get_line_from_env(char *search, char **env)
+{
+	int		i;
+	int		equal_pos;
+
+	if (!search || !env)
+		return (NULL);
+	i = -1;
+	while (env[++i])
+	{
+		if ((equal_pos = get_envvar_name(search, env[i])))
+		{
+			return (env[i] + equal_pos + 1);
+		}
+	}
+	return (NULL);
+}
+
+char	*get_env_path(char **envp)//i'll make a more generic function
 {
 	int		i;
 
@@ -9,6 +50,9 @@ char	*get_env_path(char **envp)
 		printf("ENV IS NULL\n");
 		return (NULL);
 	}
+	//
+	printf("ICI: {%s}\n", get_line_from_env("TERM_PROGRAM", envp));
+	//
 	i = -1;
 	while (envp[++i])
 	{

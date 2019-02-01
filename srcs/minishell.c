@@ -9,6 +9,10 @@ int		search_prog(char *prog_path, char **args, char **envp)
 	int		ret;//can do without it
 
 	env_paths = get_all_env_path(get_env_path(envp));
+	//env_paths = get_all_env_path(get_line_from_env("PATH", envp));
+	printf("path[0]: {%s}\n", env_paths[0]);
+	printf("path[1]: {%s}\n", env_paths[1]);
+	printf("path[2]: {%s}\n", env_paths[2]);
 	if (!env_paths)
 		return (0);//get_all_env_path failed
 	i = -1;
@@ -22,9 +26,11 @@ int		search_prog(char *prog_path, char **args, char **envp)
 		if (ret == 0)//0 is good
 		{
 			prog_path = ft_strcpy(prog_path, path);
+			//free ici
 			return (1);
 		}
 	}
+	//free ici
 	return (0);
 }
 
