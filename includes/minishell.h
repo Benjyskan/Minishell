@@ -8,7 +8,7 @@
 # include <limits.h>
 # include <sys/syslimits.h>
 # include "libft.h"
-# define BUF_SIZE 124
+# define BUF_SIZE 124 //TODO
 # define SHELL_NAME "my_sh"
 # define HOME "/Users/penzo" //Degueu
 # define ERROR_MEM exit(1) //naze
@@ -17,7 +17,7 @@
 # define ERROR_FORK exit(1) //naze
 # define ERROR_ENV exit(1) //naze
 
-typedef struct	s_myenv
+typedef struct	s_myenv //TODO a SHLVL var too
 {
 	char		**envp;
 	char		home[PATH_MAX];
@@ -46,7 +46,7 @@ int				is_str_digit(char *str);
 void			reset_buf(char *buf, int *i);
 void			append_path_nomalloc(char *env_path, char *prog_name,
 		char *result);
-int	get_ntab_len(char **tab);
+int				get_ntab_len(char **tab);
 
 /*
 ** msg.c
@@ -58,14 +58,15 @@ void			cmd_not_found(char *prog_name);
 ** exits.c
 */
 
-void			exit_not_digit(char *str);
+void			exit_not_digit(char **args, char **env);
 void			exit_many_args(void);
 
 /*
 ** env_utils.c
 */
 
-char			*get_env_path(char **envp);
+int				init_env(char **envp, t_myenv *my_env);
+char			*get_line_from_env(char *search, char **env);
 char			**get_all_env_path(char *path);
 char			**cpy_envp(char **envp);
 
@@ -74,4 +75,10 @@ char			**cpy_envp(char **envp);
 */
 
 void			print_prompt(void);
+
+/*
+** free.c
+*/
+
+void			free_nultab(char **tab);
 #endif

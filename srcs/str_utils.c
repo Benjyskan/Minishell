@@ -30,7 +30,7 @@ void			append_path_nomalloc(char *env_path, char *prog_name, char *result)
 
 void			reset_buf(char *buf, int *i)
 {
-	*i = -1;
+	*i = 0;
 	ft_bzero(buf, BUF_SIZE);	
 }
 

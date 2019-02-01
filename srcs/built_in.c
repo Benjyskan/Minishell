@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	my_exit(char **args)
+void	my_exit(char **args, char **env)
 {
 	int		ac;
 
@@ -10,16 +10,21 @@ void	my_exit(char **args)
 	if (ac == 1)
 	{
 		ft_putendl_fd("exit", 2);
+		free_nultab(args);
+		free_nultab(env);
 		exit(0);
 	}
 	else if (ac > 1 && !is_str_digit(args[1]))
 	{
 		ft_putendl_fd("exit", 2);
-		exit_not_digit(args[1]);
+		//exit_not_digit(args[1]);
+		exit_not_digit(args, env);
 	}
 	else if (ac == 2)
 	{
 		ft_putendl_fd("exit", 2);
+		free_nultab(args);
+		free_nultab(env);
 		exit(ft_atoi(args[1]));
 	}
 	else
@@ -28,6 +33,8 @@ void	my_exit(char **args)
 
 int		my_echo(char **args, char **env)
 {
+	(void)args;
+	(void)env;
 	printf("WEHEY ECHO\n");
 	return (0);
 }
@@ -45,7 +52,7 @@ int		check_built_in(char **args, char **env)
 
 	ret = 1;
 	if ((ft_strcmp(args[0], "exit")) == 0)
-		my_exit(args);
+		my_exit(args, env);
 	else if ((ft_strcmp(args[0], "echo")) == 0)
 		my_echo(args, env);
 	else if ((ft_strcmp(args[0], "cd")) == 0)

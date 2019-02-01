@@ -2,6 +2,7 @@
 
 void	cd_not_found(char **args, char **env)
 {
+	(void)env;
 	ft_putstr_fd(SHELL_NAME, 2);
 	ft_putstr_fd(": cd: ", 2);
 	ft_putstr_fd(args[1], 2);

@@ -9,6 +9,7 @@ int		get_envvar_name(char *search, char *env_line)
 {
 	int		i;
 
+	//printf("search: {%s} in: {%s}\n", search, env_line);
 	i = -1;
 	while (env_line[++i] != '=' )//&& env_line[i] && search[i])
 	{
@@ -34,30 +35,7 @@ char	*get_line_from_env(char *search, char **env)
 	while (env[++i])
 	{
 		if ((equal_pos = get_envvar_name(search, env[i])))
-		{
 			return (env[i] + equal_pos + 1);
-		}
-	}
-	return (NULL);
-}
-
-char	*get_env_path(char **envp)//i'll make a more generic function
-{
-	int		i;
-
-	if (!envp)
-	{
-		printf("ENV IS NULL\n");
-		return (NULL);
-	}
-	//
-	printf("ICI: {%s}\n", get_line_from_env("TERM_PROGRAM", envp));
-	//
-	i = -1;
-	while (envp[++i])
-	{
-		if (!(ft_strncmp("PATH=", envp[i], 5)))
-			return (envp[i]);
 	}
 	return (NULL);
 }
@@ -74,6 +52,8 @@ char	**get_all_env_path(char *path)
 
 void	add_env_var(char **my_env, char *new_var)
 {
+	(void)my_env;
+	(void)new_var;
 	//add a new var at the end of env and null terminat env
 }
 
@@ -92,7 +72,6 @@ char	**cpy_envp(char **envp)
 
 	if (!*envp)
 	{
-		ft_putendl("env is NULL");
 		my_env = NULL;// ou mini_env ?
 		return (my_env);
 	}
@@ -109,14 +88,15 @@ char	**cpy_envp(char **envp)
 
 /*
 ** set my_env via address
+** init_env should return 0 if it fail
 */
 
 int		init_env(char **envp, t_myenv *my_env)
 {
 	if (*envp)
-	{
 		my_env->envp = cpy_envp(envp);
-	}
+	else
+		ft_putendl("env is NULL");
 	//set HOME
 	ft_bzero(my_env->home, PATH_MAX);
 	ft_strcpy(my_env->home, HOME);
@@ -124,23 +104,3 @@ int		init_env(char **envp, t_myenv *my_env)
 	//my_env.pwd = //getpwd();
 	return (1);
 }
-
-/*char	*append_path(const char *path, const char *prog_name)//malloc
-{
-	int		len;
-	char	*res;
-	int		pathlen;
-	int		dirlen;
-
-	if (!path)
-		return (ft_strdup((char*)prog_name));
-	pathlen = ft_strlen(path);
-	dirlen = ft_strlen(prog_name);
-	len = pathlen + dirlen + 1;
-	if (!(res = ft_strnew(len + 1)))
-		ERROR_MEM;
-	ft_strncpy(res, path, pathlen);
-	res[pathlen] = '/';
-	ft_strncpy((res + pathlen + 1), prog_name, dirlen);
-	return (res);
-}*/

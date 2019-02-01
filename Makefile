@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 17:50:27 by penzo             #+#    #+#              #
-#    Updated: 2019/01/31 14:47:42 by penzo            ###   ########.fr        #
+#    Updated: 2019/02/01 18:17:30 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ RM		:=	rm -rf
 INCL	:=	-I includes/ -I libft/
 LIBS    :=	-L libft -lft
 SRC		:=	minishell.c built_in.c str_utils.c exits.c env_utils.c msg.c \
-			prompt.c cd.c
+			prompt.c cd.c free.c
 SRCS	:=	$(addprefix srcs/, $(SRC))
 OBJS	:=	$(SRCS:.c=.o)
 DEPS	:=	includes/minishell.h
