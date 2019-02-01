@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 17:50:27 by penzo             #+#    #+#              #
-#    Updated: 2019/02/01 20:59:32 by penzo            ###   ########.fr        #
+#    Updated: 2019/02/01 21:14:50 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,9 +53,10 @@ d:	all
 
 fsa: $(OBJS) libft/libft.a Makefile
 	$(CC) $(WFLAGS) -g3 -fsanitize=address $(INCL) $(LIBS) -o $(NAME) $(SRCS)
+	echo "ENV-I!!!!"
 	env -i ./$(NAME)
 
 val: $(NAME)
-	valgrind --leak-check=full env -i ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re
