@@ -60,6 +60,7 @@ void			cmd_not_found(char *prog_name);
 
 void			exit_not_digit(char **args, char **env);
 void			exit_many_args(void);
+void			exit_numeric(char **args, char **env);
 
 /*
 ** env_utils.c

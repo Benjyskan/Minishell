@@ -21,12 +21,7 @@ void	my_exit(char **args, char **env)
 		exit_not_digit(args, env);
 	}
 	else if (ac == 2)
-	{
-		ft_putendl_fd("exit", 2);
-		free_nultab(args);
-		free_nultab(env);
-		exit(ft_atoi(args[1]));
-	}
+		exit_numeric(args, env);
 	else
 		exit_many_args();
 }
