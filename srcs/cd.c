@@ -35,8 +35,6 @@ int		cd_arg(char **args, t_myenv *my_env)
 {
 	if (chdir(args[1]) == -1)
 	{
-		//expand '-'
-		//so i should change cd_not_found args
 		cd_not_found(args, my_env->envp);
 		return (1);
 	}
@@ -60,6 +58,7 @@ int		my_cd(char **args, t_myenv *my_env)
 	if (!args[1] || ft_strcmp(args[1], "~") == 0)
 	{
 		//TODO: Expand ~
+		//so i should change cd_not_found args
 		if (chdir(my_env->home) == -1)
 		{
 			cd_not_found(args, my_env->envp);
@@ -67,7 +66,6 @@ int		my_cd(char **args, t_myenv *my_env)
 		}
 		return (0);
 	}
-	//else if (args[1] && ft_strncmp(args[1], "-", 1) == 0)//bof
 	else if (args[1] && args[1][0] == '-')//bof
 		cd_dash(args, my_env);//i can put this line in the statement above
 	else if (args[1] && cd_arg(args, my_env))//bof
