@@ -21,6 +21,7 @@ int		get_envvar_name(char *search, char *env_line)
 
 /*
 ** return a pointer to the correct line, after the '='
+** (use get_envvar_name)
 ** return NULL otherwise
 */
 
