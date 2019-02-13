@@ -52,12 +52,15 @@ void	cd_tilde(char **args, t_myenv *my_env)
 	ft_bzero(home_save, PATH_MAX);
 	ft_strcpy(home_save, get_line_from_env("HOME", my_env->envp));
 	home_size = ft_strlen(home_save);
-	while (args[1][i])
+	if (!args[1])
 	{
-		home_save[home_size] = args[1][i];
-		home_size++;
-		i++;
+		ft_putendl("No ARGS");
+		if (chdir(home_save) == -1)
+			cd_not_found_str(home_save);
+		return ;
 	}
+	while (args[1][i])
+		home_save[home_size++] = args[1][i++];
 	if (chdir(home_save) == -1)
 		cd_not_found_str(home_save);
 }
