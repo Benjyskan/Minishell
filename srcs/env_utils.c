@@ -106,7 +106,7 @@ int		init_env(char **envp, t_myenv *my_env)
 	{
 		ft_putendl("env is NULL");
 		ft_bzero(my_env->home, PATH_MAX);
-		ft_strcpy(my_env->home, getcwd(my_env->home, PATH_MAX));
+		//ft_strcpy(my_env->home, getcwd(my_env->home, PATH_MAX));//nul a chier
 	}
 	ft_putendl(my_env->home);
 	//set PWD

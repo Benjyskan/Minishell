@@ -1,43 +1,39 @@
 #include "minishell.h"
 
-void	cd_not_found(char **args, char **env)
-{
-	(void)env;
-	ft_putstr_fd(SHELL_NAME, 2);
-	ft_putstr_fd(": cd: ", 2);
-	ft_putstr_fd(args[1], 2);
-	ft_putendl_fd(": No such file or directory", 2);
-}
-
-void	cd_invalid_option(char **args, t_myenv *my_env)
-{
-	(void)my_env;
-	ft_putstr_fd(SHELL_NAME, 2);
-	ft_putstr_fd(": cd: ", 2);
-	ft_putstr_fd(args[1], 2);
-	ft_putendl_fd(" invalid option", 2);
-	ft_putendl_fd("cd: usage: cd [dir]", 2);
-}
-
 void	cd_dash(char **args, t_myenv *my_env)
 {
+	char	tmp[PATH_MAX];
+
+	getcwd(tmp, PATH_MAX);
 	if (ft_strcmp(args[1], "-") == 0)
 	{
-		//what if no OLDPWD ?
-		chdir(get_line_from_env("OLDPWD", my_env->envp));
-		ft_putendl(get_line_from_env("OLDPWD", my_env->envp));
+		if (!access(my_env->old_pwd, F_OK))
+		{
+			chdir(my_env->old_pwd);
+			ft_putendl(my_env->old_pwd);
+		}
+		else
+			cd_not_found_str(my_env->old_pwd);
 	}
 	else
 		cd_invalid_option(args, my_env);
+	ft_strcpy(my_env->old_pwd, tmp);
 }
 
 int		cd_arg(char **args, t_myenv *my_env)
 {
+	char	tmp[PATH_MAX];
+
+	getcwd(tmp, PATH_MAX);
 	if (chdir(args[1]) == -1)
 	{
-		cd_not_found(args, my_env->envp);
+		if (!access(args[1], F_OK))
+			cd_permi_denied(args, my_env->envp);
+		else
+			cd_not_found(args, my_env->envp);
 		return (1);
 	}
+	ft_strcpy(my_env->old_pwd, tmp);
 	return (0);
 }
 
@@ -54,17 +50,12 @@ int		cd_arg(char **args, t_myenv *my_env)
 //should i use my struct, or create a mini_env ?
 int		my_cd(char **args, t_myenv *my_env)
 {
-	ft_putendl("MY CD");
 	if (!args[1] || ft_strcmp(args[1], "~") == 0)
 	{
 		//TODO: Expand ~
-		//so i should change cd_not_found args
-		if (chdir(my_env->home) == -1)
-		{
-			cd_not_found(args, my_env->envp);
-			printf("~\n");//env HOME=sldkfjsldkfj ./minishell
-		}
-		return (0);
+		if (chdir(get_line_from_env("HOME", my_env->envp)) == -1)
+			cd_not_found_str(get_line_from_env("HOME", my_env->envp));
+		//return (0);
 	}
 	else if (args[1] && args[1][0] == '-')//bof
 		cd_dash(args, my_env);//i can put this line in the statement above

@@ -19,8 +19,8 @@
 typedef struct	s_myenv //TODO a SHLVL var too
 {
 	char		**envp;
-	char		home[PATH_MAX];
-	char		pwd[PATH_MAX];
+	char		home[PATH_MAX];//useless ?
+	char		pwd[PATH_MAX];//useless ?
 	char		old_pwd[PATH_MAX];
 }				t_myenv;
 
@@ -34,8 +34,16 @@ int				check_built_in(char **args, t_myenv *my_env);
 ** cd.c
 */
 
-void			cd_not_found(char **args, char **env);
 int				my_cd(char **args, t_myenv *my_env);
+
+/*
+** cd_errors.c
+*/
+
+void			cd_not_found(char **args, char **env);
+void			cd_not_found_str(char *str);
+void			cd_permi_denied(char **args, char **env);
+void			cd_invalid_option(char **args, t_myenv *my_env);
 
 /*
 ** str_utils.c
