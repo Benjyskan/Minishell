@@ -17,7 +17,6 @@ void	my_exit(char **args, char **env)
 	else if (ac > 1 && !is_str_digit(args[1]))
 	{
 		ft_putendl_fd("exit", 2);
-		//exit_not_digit(args[1]);
 		exit_not_digit(args, env);
 	}
 	else if (ac == 2)
@@ -52,6 +51,10 @@ int		check_built_in(char **args, t_myenv *my_env)
 		my_echo(args, my_env);
 	else if ((ft_strcmp(args[0], "cd")) == 0)
 		my_cd(args, my_env);
+	///////
+	else if ((ft_strcmp(args[0], "env")) == 0)
+		my_env_function(args, my_env->envp);
+	///////
 	else
 		ret = 0;
 	return (ret);

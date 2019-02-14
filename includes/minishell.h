@@ -31,6 +31,18 @@ typedef struct	s_myenv //TODO a SHLVL var too
 int				check_built_in(char **args, t_myenv *my_env);
 
 /*
+** built_in_env.c
+*/
+
+void			my_env_function(char **args, char **env);
+
+/*
+** built_in_env_utils.c
+*/
+
+int				do_envvar_exist(char *what, char **envp);
+
+/*
 ** cd.c
 */
 
@@ -77,6 +89,7 @@ int				init_env(char **envp, t_myenv *my_env);
 char			*get_line_from_env(char *search, char **env);
 char			**get_all_env_path(char *path);
 char			**cpy_envp(char **envp);
+int				strcmp_before_equal(char *search, char *env_line);
 
 /*
 ** prompt.c

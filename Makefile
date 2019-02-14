@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 17:50:27 by penzo             #+#    #+#              #
-#    Updated: 2019/02/13 17:24:50 by penzo            ###   ########.fr        #
+#    Updated: 2019/02/14 16:04:49 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ RM		:=	rm -rf
 INCL	:=	-I includes/ -I libft/
 LIBS    :=	-L libft -lft
 SRC		:=	minishell.c built_in.c str_utils.c exits.c env_utils.c msg.c \
-			prompt.c cd.c free.c cd_errors.c
+			prompt.c cd.c free.c cd_errors.c built_in_env.c
 SRCS	:=	$(addprefix srcs/, $(SRC))
 OBJS	:=	$(SRCS:.c=.o)
 DEPS	:=	includes/minishell.h
@@ -53,10 +53,10 @@ d:	all
 
 fsa: $(OBJS) libft/libft.a Makefile
 	$(CC) $(WFLAGS) -g3 -fsanitize=address $(INCL) $(LIBS) -o $(NAME) $(SRCS)
-	echo "ENV-I!!!!"
-	env -i ./$(NAME)
+	#echo "ENV-I!!!!"
+	./$(NAME)
 
 val: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re

@@ -1,11 +1,11 @@
 #include "minishell.h"
 
 /*
-** return 1 if env_line is = search until '='
+** return ('=' offset) if search is equal to env_line name
 ** return 0 otherwise
 */
 
-int		get_envvar_name(char *search, char *env_line)
+int		strcmp_before_equal(char *search, char *env_line)
 {
 	int		i;
 
@@ -21,7 +21,7 @@ int		get_envvar_name(char *search, char *env_line)
 
 /*
 ** return a pointer to the correct line, after the '='
-** (use get_envvar_name)
+** (use strcmp_before_equal)
 ** return NULL otherwise
 */
 
@@ -35,7 +35,7 @@ char	*get_line_from_env(char *search, char **env)
 	i = -1;
 	while (env[++i])
 	{
-		if ((equal_pos = get_envvar_name(search, env[i])))
+		if ((equal_pos = strcmp_before_equal(search, env[i])))
 			return (env[i] + equal_pos + 1);
 	}
 	return (NULL);
@@ -58,9 +58,23 @@ void	add_env_var(char **my_env, char *new_var)
 	//add a new var at the end of env and null terminat env
 }
 
+char 	**create_minienv(void)
+{
+	int		init_lines = 2;//!!!
+	char	**envp;
+
+	if (!(envp = (char**)malloc(sizeof(char**) * init_lines)))
+		ERROR_MEM;
+	if (!(envp[0] = ft_strnew(6 + 8)))
+		ERROR_MEM;
+	ft_strcpy(envp[0], "SHLVL=1");
+	envp[init_lines - 1] = NULL;
+	return (envp);
+}
+
 /*
 ** if envp: MALLOC
-** else: return NULL  or should i malloc a mini_env ?
+** else: return NULL  or should i malloc a mini_env ? yes, which malloc too
 */
 
 //envp is NULL terminated
@@ -94,22 +108,21 @@ char	**cpy_envp(char **envp)
 
 int		init_env(char **envp, t_myenv *my_env)
 {
+	ft_bzero(my_env->old_pwd, PATH_MAX);//well placed ??
 	if (*envp)
 	{
 		my_env->envp = cpy_envp(envp);
 		//degueu, si on suppr HOME
 		ft_bzero(my_env->home, PATH_MAX);
 		ft_strcpy(my_env->home,
-				get_line_from_env("HOME", my_env->envp));
+				get_line_from_env("HOME", my_env->envp));//usefull ?
 	}
 	else
 	{
-		ft_putendl("env is NULL");
+		ft_putendl("env is NULL");//tejme 
 		ft_bzero(my_env->home, PATH_MAX);
-		//ft_strcpy(my_env->home, getcwd(my_env->home, PATH_MAX));//nul a chier
+		//malloc some shit
+		my_env->envp = create_minienv();
 	}
-	ft_putendl(my_env->home);
-	//set PWD
-	//my_env.pwd = //getpwd();
 	return (1);
 }
