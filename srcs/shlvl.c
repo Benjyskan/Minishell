@@ -57,29 +57,21 @@ void	shlvl_plus_one(char *shlvl, char **envp)
 	free(tmp);
 }
 
-void	set_shlvl(char **envp)
+//void	set_shlvl(char **envp)
+void	set_shlvl(char ***envp)
 {
 	char	*shlvl;
 
-	shlvl = get_line_from_env("SHLVL", envp);
-	printf("!!!!!!!!!!my shlvl: {%s}\n", shlvl);
-	if (!shlvl)//shlvl exit pas, so realloc all env
+	shlvl = get_line_from_env("SHLVL", *envp);
+	if (!shlvl)
 	{
-		//AH! env -i HOME=/Users/penzo ./minishell
-		ft_putendl("Ce cas n'arrive pas (enfaite, si)");
-		add_env_var("SHLVL=1", envp);
+		*envp = add_env_var("SHLVL=1", *envp);
+		ft_putendl("===");
+		ft_put_nultab(*envp);
+		ft_putendl("===");
 	}
-	else if (!*shlvl)//shlvl exit, mais empty, so realloc SHLVL line
-	{
-		ft_putendl("set to 1 pls");
-		set_shlvl_to_one(envp);
-	}
-	else//normal
-	{
-		ft_putendl("+1 pls");
-		shlvl_plus_one(shlvl, envp);
-	}
-	ft_putendl("----------------shlvl.c---------------");
-	ft_put_nultab(envp);
-	ft_putendl("end-------------shlvl.c---------------");
+	else if (!*shlvl)
+		set_shlvl_to_one(*envp);
+	else
+		shlvl_plus_one(shlvl, *envp);
 }

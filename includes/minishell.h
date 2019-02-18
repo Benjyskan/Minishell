@@ -90,7 +90,8 @@ char			*get_line_from_env(char *search, char **env);
 int				get_linenumber_from_env(char *search, char **env);
 char			**get_all_env_path(char *path);
 char			**cpy_envp(char **envp);
-void			add_env_var(char *new_var, char **envp);
+//void			add_env_var(char *new_var, char **envp);
+char			**add_env_var(char *new_var, char **envp);
 //int				strcmp_before_equal(char *search, char *env_line);
 
 /*
@@ -109,5 +110,5 @@ void			free_nultab(char **tab);
 ** shlvl.c
 */
 
-void			set_shlvl(char **envp);
+void			set_shlvl(char ***envp);
 #endif

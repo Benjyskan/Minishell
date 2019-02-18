@@ -76,20 +76,34 @@ char	**get_all_env_path(char *path)
 */
 
 //add a new var at the end of env and null terminat env
-void	add_env_var(char *new_var, char **envp)
+//void	add_env_var(char *new_var, char **envp)
+char	**add_env_var(char *new_var, char **envp)
 {
 	int		line_count;
 	char	**new;
 
+	ft_putendl("ICICICICICI");
 	line_count = 0;
+	/////
 	while (envp[line_count])
 		line_count++;
-	if (!(new = (char**)malloc(sizeof(char**) * (line_count + 1))))
+	//// OU
+	line_count = get_ntab_len(envp);
+	if (!(new = (char**)malloc(sizeof(char**) * (line_count + 2))))
 		ERROR_MEM;
 	line_count = -1;
 	while (envp[++line_count])
 		new[line_count] = ft_strdup(envp[line_count]);
-	envp[line_count] = ft_strdup(new_var);
+	//envp[line_count] = ft_strdup(new_var);
+	new[line_count] = ft_strdup(new_var);
+	new[line_count + 1] = 0;
+	ft_putendl("---");
+	ft_put_nultab(new);
+	ft_putendl("---");
+	//free plz
+	free_nultab(envp);
+	//envp = new;
+	return (new);//a chier
 }
 
 char 	**create_minienv(void)
@@ -132,7 +146,10 @@ char	**cpy_envp(char **envp)
 	i = -1;
 	while (++i < (int)tab_len)
 		my_env[i] = ft_strdup(envp[i]);
-	set_shlvl(my_env);
+	set_shlvl(&my_env);
+	ft_putendl("+++");
+	ft_put_nultab(my_env);
+	ft_putendl("+++");
 	return (my_env);
 }
 
