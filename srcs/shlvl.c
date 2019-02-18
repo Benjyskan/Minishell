@@ -20,12 +20,15 @@ static int	ft_getnblen(int n)
 	return (len);
 }
 
-void	create_shlvl(char **envp)
+void	set_shlvl_to_one(char **envp)
 {
-}
-void	set_shlvl_to_one(char *shlvl, char **envp)
-{
-	
+	int		line_index;
+
+	line_index = get_linenumber_from_env("SHLVL", envp);
+	free(envp[line_index]);
+	if (!(envp[line_index] = ft_memalloc(8)))
+		ERROR_MEM;
+	ft_strcpy(envp[line_index], "SHLVL=1");
 }
 
 void	shlvl_plus_one(char *shlvl, char **envp)
@@ -62,19 +65,21 @@ void	set_shlvl(char **envp)
 	printf("!!!!!!!!!!my shlvl: {%s}\n", shlvl);
 	if (!shlvl)//shlvl exit pas, so realloc all env
 	{
-		ft_putendl("Ce cas n'arrive pas (enfaite, si)");//AH! env -i HOME=/Users/penzo ./minishell
+		//AH! env -i HOME=/Users/penzo ./minishell
+		ft_putendl("Ce cas n'arrive pas (enfaite, si)");
 		add_env_var("SHLVL=1", envp);
 	}
 	else if (!*shlvl)//shlvl exit, mais empty, so realloc SHLVL line
 	{
 		ft_putendl("set to 1 pls");
+		set_shlvl_to_one(envp);
 	}
 	else//normal
 	{
 		ft_putendl("+1 pls");
 		shlvl_plus_one(shlvl, envp);
-		ft_putendl("----------------shlvl.c---------------");
-		ft_put_nultab(envp);
-		ft_putendl("end-------------shlvl.c---------------");
 	}
+	ft_putendl("----------------shlvl.c---------------");
+	ft_put_nultab(envp);
+	ft_putendl("end-------------shlvl.c---------------");
 }

@@ -90,7 +90,6 @@ void	add_env_var(char *new_var, char **envp)
 	while (envp[++line_count])
 		new[line_count] = ft_strdup(envp[line_count]);
 	envp[line_count] = ft_strdup(new_var);
-	envp[line_count + 1] = 0;
 }
 
 char 	**create_minienv(void)
@@ -149,9 +148,9 @@ int		init_env(char **envp, t_myenv *my_env)
 	{
 		my_env->envp = cpy_envp(envp);
 		//degueu, si on suppr HOME
-		ft_bzero(my_env->home, PATH_MAX);
-		ft_strcpy(my_env->home,
-				get_line_from_env("HOME", my_env->envp));//usefull ?
+		ft_bzero(my_env->home, PATH_MAX);//useless ?
+		//ft_strcpy(my_env->home,
+		//		get_line_from_env("HOME", my_env->envp));//usefull ? apparement non
 	}
 	else
 	{
