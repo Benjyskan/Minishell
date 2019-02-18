@@ -125,7 +125,7 @@ int		main(int argc, char **argv, char **envp)
 	{
 		//printf("real env[0]: %s\n", envp[0]);
 		//printf("my env[0]: %s\n", my_env.envp[0]);
-		//ft_put_nultab(my_env.envp);
+		ft_put_nultab(my_env.envp);
 		//ft_put_nultab(envp);
 	}
 	loop(&my_env);

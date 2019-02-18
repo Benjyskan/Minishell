@@ -87,9 +87,11 @@ void			exit_numeric(char **args, char **env);
 
 int				init_env(char **envp, t_myenv *my_env);
 char			*get_line_from_env(char *search, char **env);
+int				get_linenumber_from_env(char *search, char **env);
 char			**get_all_env_path(char *path);
 char			**cpy_envp(char **envp);
-int				strcmp_before_equal(char *search, char *env_line);
+void			add_env_var(char *new_var, char **envp);
+//int				strcmp_before_equal(char *search, char *env_line);
 
 /*
 ** prompt.c
@@ -102,4 +104,10 @@ void			print_prompt(void);
 */
 
 void			free_nultab(char **tab);
+
+/*
+** shlvl.c
+*/
+
+void			set_shlvl(char **envp);
 #endif

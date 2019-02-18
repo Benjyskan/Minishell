@@ -41,6 +41,26 @@ char	*get_line_from_env(char *search, char **env)
 	return (NULL);
 }
 
+/*
+** return the line number of the 'search' in env
+** return -1 on errors
+*/
+
+int		get_linenumber_from_env(char *search, char **env)
+{
+	int		i;
+
+	if (!search || !env)
+		return (-1);
+	i = -1;
+	while (env[++i])
+	{
+		if (strcmp_before_equal(search, env[i]))
+			return (i);
+	}
+	return (-1);
+}
+
 char	**get_all_env_path(char *path)
 {
 	char	**tab;
@@ -51,11 +71,26 @@ char	**get_all_env_path(char *path)
 	return (tab);
 }
 
-void	add_env_var(char **my_env, char *new_var)
+/*
+** realloc envp with +1 line
+*/
+
+//add a new var at the end of env and null terminat env
+void	add_env_var(char *new_var, char **envp)
 {
-	(void)my_env;
-	(void)new_var;
-	//add a new var at the end of env and null terminat env
+	int		line_count;
+	char	**new;
+
+	line_count = 0;
+	while (envp[line_count])
+		line_count++;
+	if (!(new = (char**)malloc(sizeof(char**) * (line_count + 1))))
+		ERROR_MEM;
+	line_count = -1;
+	while (envp[++line_count])
+		new[line_count] = ft_strdup(envp[line_count]);
+	envp[line_count] = ft_strdup(new_var);
+	envp[line_count + 1] = 0;
 }
 
 char 	**create_minienv(void)
@@ -87,17 +122,18 @@ char	**cpy_envp(char **envp)
 
 	if (!*envp)//useless, vu que je check dans la fonct precedente
 	{
+		ft_putendl("WEHEHEY, tu ne me veras jamais !!!!");
 		my_env = NULL;// ou mini_env ?
 		return (my_env);
 	}
 	tab_len = get_ntab_len(envp);
-	printf("env len: %d\n", tab_len);
 	if (!(my_env = (char**)malloc(sizeof(char**) * (tab_len + 1))))
 		ERROR_MEM;
 	my_env[tab_len] = NULL;
 	i = -1;
 	while (++i < (int)tab_len)
 		my_env[i] = ft_strdup(envp[i]);
+	set_shlvl(my_env);
 	return (my_env);
 }
 

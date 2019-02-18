@@ -43,7 +43,9 @@ void	cd_tilde(char **args, t_myenv *my_env)
 	int		home_size;
 	int		i;
 
-	if (!get_line_from_env("HOME", my_env->envp))
+	//if (!get_line_from_env("HOME", my_env->envp))
+	if (!get_line_from_env("HOME", my_env->envp)
+			|| *get_line_from_env("HOME", my_env->envp) == 0)
 	{
 		ft_putendl_fd("No $home variable set.", 2);
 		return ;
@@ -54,7 +56,7 @@ void	cd_tilde(char **args, t_myenv *my_env)
 	home_size = ft_strlen(home_save);
 	if (!args[1])
 	{
-		ft_putendl("No ARGS");
+		ft_putendl("No ARGS");//tejme
 		if (chdir(home_save) == -1)
 			cd_not_found_str(home_save);
 		return ;
