@@ -25,15 +25,6 @@ void	my_exit(char **args, char **env)
 		exit_many_args();
 }
 
-int		my_echo(char **args, t_myenv *my_env)
-{
-	(void)args;
-	(void)my_env;
-	printf("WEHEY ECHO\n");
-	return (0);
-}
-
-
 /*
 ** return 1 if prog_name is a built_in
 ** return 0 otherwise
@@ -51,10 +42,8 @@ int		check_built_in(char **args, t_myenv *my_env)
 		my_echo(args, my_env);
 	else if ((ft_strcmp(args[0], "cd")) == 0)
 		my_cd(args, my_env);
-	///////
 	else if ((ft_strcmp(args[0], "env")) == 0)
 		my_env_function(args, my_env->envp);
-	///////
 	else
 		ret = 0;
 	return (ret);

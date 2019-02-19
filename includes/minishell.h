@@ -12,11 +12,12 @@
 # define SHELL_NAME "my_sh"
 # define ERROR_MEM exit(1) //naze
 # define ERROR_READ exit(1) //naze
-# define ERROR_EXEC exit(1) //naze
+//# define ERROR_EXEC exit(1) //naze
+# define ERROR_EXEC ft_putendl("SDFSDFSDF") //naze
 # define ERROR_FORK exit(1) //naze
 # define ERROR_ENV exit(1) //naze
 
-typedef struct	s_myenv //TODO a SHLVL var too
+typedef struct	s_myenv
 {
 	char		**envp;
 	char		home[PATH_MAX];//useless ?
@@ -41,6 +42,12 @@ void			my_env_function(char **args, char **env);
 */
 
 int				do_envvar_exist(char *what, char **envp);
+
+/*
+** built_in_echo.c
+*/
+
+void			my_echo(char **args, t_myenv *my_env);
 
 /*
 ** cd.c
@@ -72,6 +79,8 @@ int				get_ntab_len(char **tab);
 */
 
 void			cmd_not_found(char *prog_name);
+void			undefined_variable(char *var_name);
+void			exec_permission_denied(char *prog_name);
 
 /*
 ** exits.c

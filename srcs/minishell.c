@@ -1,5 +1,3 @@
-//TODO: increment SHLVL !!
-//Only malloc the command line
 #include "minishell.h"
 
 int		search_prog(char *prog_path, char **args, char **envp)
@@ -9,28 +7,35 @@ int		search_prog(char *prog_path, char **args, char **envp)
 	int		i;
 	int		ret;//can do without it
 
-	env_paths = get_all_env_path(get_line_from_env("PATH", envp));
-	if (!env_paths)
-		return (0);//get_all_env_path failed
+	if (!(env_paths = get_all_env_path(get_line_from_env("PATH", envp))))
+	{
+		ft_putendl("there is no PATH");
+		return (0);
+	}
 	i = -1;
-	ret = -1;
+	ret = 1;
 	while (env_paths[++i])
 	{
 		append_path_nomalloc(env_paths[i], args[0], path);
-		//free tab env_path, ou free ligne par ligne ?
+		//if no access, output msg
 		if (!access(path, F_OK))
-			ret = access(path, X_OK);//X_OK
+			ret = access(path, X_OK);
 		if (ret == 0)//0 is good
 		{
 			prog_path = ft_strcpy(prog_path, path);
-			//free ici
 			free_nultab(env_paths);
 			return (1);
 		}
+		else if (ret == -1)
+		{
+			exec_permission_denied(path);
+			free_nultab(env_paths);
+			return (-1);
+		}
 	}
-	//free ici
 	free_nultab(env_paths);
 	return (0);
+	//ask scott why prog_path is modified out of the function
 }
 
 void	my_exec(char *prog_path, char **args, char **envp)
@@ -53,21 +58,41 @@ void	my_exec(char *prog_path, char **args, char **envp)
 void	get_right_cmd(char **args, t_myenv *my_env)
 {
 	int		pid;
+	int		ret;
 	char	prog_path[PATH_MAX];//pas sure
 
 	(void)pid;
 	//TODO: Free when i exit(built_in)
+	//check if start with '/' here
+	if (args[0][0] == '/')
+	{
+		//check if command exist
+		if (!access(args[0], F_OK))
+		{
+			if(!access(args[0], X_OK))
+				my_exec(args[0], args, my_env->envp);
+		}
+		else
+			cmd_not_found(args[0]);
+		free_nultab(args);
+		return ;
+	}
 	if (check_built_in(args, my_env))//if else might be better
 	{
 		free_nultab(args);
-		return ;//free args
+		return ;
 	}
 	//search_prog should return 1 if found, 0 otherwise
 	//and set prog_path
 	//if args start with a '/', i shouldn't use search_prog()
-	if (search_prog(prog_path, args, my_env->envp))
+	ret = search_prog(prog_path, args, my_env->envp);
+	if (ret == 1)
+	{
+		ft_putstr("prog_path: ");//
+		ft_putendl(prog_path);//
 		my_exec(prog_path, args, my_env->envp);
-	else
+	}
+	else if (ret == 0)
 		cmd_not_found(args[0]);
 	//free args
 	free_nultab(args);
@@ -79,6 +104,11 @@ void	get_cmd_args(char *line, t_myenv *my_env)
 	char	**args;
 
 	args = ft_strsplit(line, ' ');
+	if (!*args)
+	{
+		free(args);
+		return ;
+	}
 	get_right_cmd(args, my_env);
 }
 
@@ -97,7 +127,8 @@ int		loop(t_myenv *my_env)
 	{
 		if (ret == -1)//when do i go in ?
 			ERROR_READ;
-		buf[i++] = c;
+/*just*/if (c != 9)//test: c'est degueu//TODO: modif str_split /*this line*/
+			buf[i++] = c;
 		if (c == 10)
 		{
 			buf[i - 1] = 0;
