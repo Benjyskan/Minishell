@@ -1,10 +1,24 @@
 #include "minishell.h"
 
 /*
-** should i imitate exit status ?
+** check_equal return 0 if '=' is found
+** return -1 otherwise
 */
 
-void	my_env_function(char **args, char **env)
+/*static int	check_equal(char *str)
+{
+	int		i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '=')
+			return (0);
+	}
+	return (-1);
+}*/
+
+static void	env_no_args(char **args, char **env)
 {
 	int		i;
 
@@ -15,7 +29,13 @@ void	my_env_function(char **args, char **env)
 		ft_putendl(env[i]);
 }
 
-int		my_setenv(const char *name, const char *value, int overwrite)
+void		my_env_function(char **args, char **env)
+{
+	if (!args[1])
+		env_no_args(args, env);
+}
+
+/*int		my_setenv(const char *name, const char *value, int overwrite)
 {
 	return (0);
 }
@@ -23,4 +43,4 @@ int		my_setenv(const char *name, const char *value, int overwrite)
 int		my_unsetenv(const char *name)
 {
 	return (0);
-}
+}*/

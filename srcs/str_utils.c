@@ -13,6 +13,24 @@ int				is_str_digit(char *str)
 	return (1);
 }
 
+//do i use it ?
+void			strjoin_equal_nomalloc(char *s1, char *s2, char *result)
+{
+	int		i;
+	int		j;
+
+	ft_bzero(result, PATH_MAX);
+	i = -1;
+	while (s1[++i])
+		result[i] = s1[i];
+	result[i] = '=';
+	j = -1;
+	if (!s2)
+		return ;
+	while (s2[++j])
+		result[++i] = s2[j];
+}
+
 void			append_path_nomalloc(char *env_path, char *prog_name, char *result)
 {
 	int		i;

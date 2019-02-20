@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 17:50:27 by penzo             #+#    #+#              #
-#    Updated: 2019/02/19 05:17:41 by penzo            ###   ########.fr        #
+#    Updated: 2019/02/20 07:16:09 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ RM		:=	rm -rf
 
 INCL	:=	-I includes/ -I libft/
 LIBS    :=	-L libft -lft
-SRC		:=	minishell.c built_in.c str_utils.c exits.c env_utils.c msg.c \
+SRC		:=	minishell.c built_in.c str_utils.c exits.c env_utils.c \
 			prompt.c cd.c free.c cd_errors.c built_in_env.c shlvl.c \
-			built_in_echo.c
+			built_in_echo.c built_in_setenv.c msg.c msg2.c
 
 SRCS	:=	$(addprefix srcs/, $(SRC))
 OBJS	:=	$(SRCS:.c=.o)
@@ -56,7 +56,7 @@ d:	all
 fsa: $(OBJS) libft/libft.a Makefile
 	$(CC) $(WFLAGS) -g3 -fsanitize=address $(INCL) $(LIBS) -o $(NAME) $(SRCS)
 	#echo "ENV-I!!!!"
-	env SHLVL=99 ./$(NAME)
+	env -i ./$(NAME)
 
 val:
 	$(CC) -g $(WFLAGS) $(INCL) $(LIBS) -o $(NAME) $(SRCS)

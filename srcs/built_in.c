@@ -33,9 +33,6 @@ void	my_exit(char **args, char **env)
 
 int		check_built_in(char **args, t_myenv *my_env)
 {
-	int		ret;
-
-	ret = 1;
 	if ((ft_strcmp(args[0], "exit")) == 0)
 		my_exit(args, my_env->envp);
 	else if ((ft_strcmp(args[0], "echo")) == 0)
@@ -44,7 +41,9 @@ int		check_built_in(char **args, t_myenv *my_env)
 		my_cd(args, my_env);
 	else if ((ft_strcmp(args[0], "env")) == 0)
 		my_env_function(args, my_env->envp);
+	else if ((ft_strcmp(args[0], "setenv")) == 0)
+		my_setenv(args, &my_env->envp);
 	else
-		ret = 0;
-	return (ret);
+		return (0);
+	return (1);
 }

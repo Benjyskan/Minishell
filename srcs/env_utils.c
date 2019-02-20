@@ -85,8 +85,8 @@ char	**add_env_var(char *new_var, char **envp)
 	ft_putendl("ICICICICICI");
 	line_count = 0;
 	/////
-	while (envp[line_count])
-		line_count++;
+	//while (envp[line_count])
+	//	line_count++;
 	//// OU
 	line_count = get_ntab_len(envp);
 	if (!(new = (char**)malloc(sizeof(char**) * (line_count + 2))))

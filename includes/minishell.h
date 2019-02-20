@@ -73,14 +73,19 @@ void			reset_buf(char *buf, int *i);
 void			append_path_nomalloc(char *env_path, char *prog_name,
 		char *result);
 int				get_ntab_len(char **tab);
+void			strjoin_equal_nomalloc(char *s1, char *s2, char *result);
 
 /*
 ** msg.c
+** msg2.c
 */
 
 void			cmd_not_found(char *prog_name);
 void			undefined_variable(char *var_name);
 void			exec_permission_denied(char *prog_name);
+void			var_must_begin_letter(char *prog_name);
+void			var_is_not_alphanum(char *prog_name);
+void			too_many_args(char *prog_name);
 
 /*
 ** exits.c
@@ -120,4 +125,10 @@ void			free_nultab(char **tab);
 */
 
 void			set_shlvl(char ***envp);
+
+/*
+** built_in_setenv.c
+*/
+
+void			my_setenv(char **args, char ***env);
 #endif
