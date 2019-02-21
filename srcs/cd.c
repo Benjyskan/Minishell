@@ -30,7 +30,8 @@ int		cd_arg(char **args, t_myenv *my_env)
 		if (!access(args[1], F_OK))
 			cd_permi_denied(args, my_env->envp);
 		else
-			cd_not_found(args, my_env->envp);
+			cd_not_found_str(args[1]);
+			//cd_not_found(args, my_env->envp);
 		return (1);
 	}
 	ft_strcpy(my_env->old_pwd, tmp);

@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-void	cd_not_found(char **args, char **env)
+/*void	cd_not_found(char **args, char **env)
 {
 	(void)env;
 	ft_putstr_fd(SHELL_NAME, 2);
 	ft_putstr_fd(": cd: ", 2);
 	ft_putstr_fd(args[1], 2);
 	ft_putendl_fd(": No such file or directory", 2);
-}
+}*/
 
 void	cd_not_found_str(char *str)//clearer than the first one ?
 {

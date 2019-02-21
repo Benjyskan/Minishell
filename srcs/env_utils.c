@@ -118,8 +118,6 @@ char 	**create_minienv(void)
 ** else: return NULL  or should i malloc a mini_env ? yes, which malloc too
 */
 
-//envp is NULL terminated
-//when adding a new variable, replace the last line (NULL) and add a new NULL
 char	**cpy_envp(char **envp)
 {
 	int	tab_len;
