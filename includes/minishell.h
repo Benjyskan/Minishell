@@ -139,4 +139,10 @@ void			my_setenv(char **args, char ***env);
 
 int				count_args(char **args);
 void			my_unsetenv(char **args, char ***env);
+
+/*
+** cmdline_utils.c
+*/
+
+int				count_args(char **args);
 #endif

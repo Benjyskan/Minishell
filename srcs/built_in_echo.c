@@ -12,11 +12,19 @@ static int	check_echo_line(char **args, t_myenv *my_env)
 	i = 0;
 	while (args[++i])
 	{
-		if (args[i][0] == '$')
+		if (args[i][0] == '$' && args[i][1] != 0)
 		{
 			if (!get_line_from_env(args[i] + 1, my_env->envp))
 			{
 				undefined_variable(args[i] + 1);
+				return (0);
+			}
+		}
+		else if (args[i][0] == '~' && args[i][1] == 0)
+		{
+			if (!get_line_from_env("HOME", my_env->envp))
+			{
+				ft_putendl_fd("No $home variable set.", 2);
 				return (0);
 			}
 		}
@@ -33,8 +41,10 @@ static void	output_echo_line(char **args, t_myenv *my_env)
 	{
 		if (i != 1)
 			ft_putchar_fd(' ', 1);
-		if (args[i][0] == '$')
+		if (args[i][0] == '$' && args[i][1] != 0)
 			ft_putstr_fd(get_line_from_env(args[i] + 1, my_env->envp), 1);
+		else if (args[i][0] == '~' && args[i][1] == 0)
+			ft_putstr_fd(get_line_from_env("HOME", my_env->envp), 1);
 		else
 			ft_putstr_fd(args[i], 1);
 	}

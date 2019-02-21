@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-//move too cmdline_utils.c
-int		count_args(char **args)
-{
-	int		i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
-}
 
 static int		count_valid_args(char **args, char **env)
 {
@@ -63,7 +53,7 @@ char	**cpy_unsetenv(char **args, char **env, char **new_env)
 	return (new_env);
 }
 
-void	my_unsetenv(char **args, char ***env)//need ***env
+void	my_unsetenv(char **args, char ***env)
 {
 	int		arg_cnt;
 	int		tab_len;
@@ -80,5 +70,4 @@ void	my_unsetenv(char **args, char ***env)//need ***env
 	if (!(new_env = malloc(sizeof(char**) * (tab_len - arg_cnt + 1))))//hmm
 		ERROR_MEM;
 	*env = cpy_unsetenv(args, *env, new_env);
-	//free
 }

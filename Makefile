@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 17:50:27 by penzo             #+#    #+#              #
-#    Updated: 2019/02/20 08:52:30 by penzo            ###   ########.fr        #
+#    Updated: 2019/02/21 05:29:16 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LIBS    :=	-L libft -lft
 SRC		:=	minishell.c built_in.c str_utils.c exits.c env_utils.c \
 			prompt.c cd.c free.c cd_errors.c built_in_env.c shlvl.c \
 			built_in_echo.c built_in_setenv.c msg.c msg2.c \
-			built_in_unsetenv.c
+			built_in_unsetenv.c cmdline_utils.c
 
 SRCS	:=	$(addprefix srcs/, $(SRC))
 OBJS	:=	$(SRCS:.c=.o)
