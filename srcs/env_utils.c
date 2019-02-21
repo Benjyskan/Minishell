@@ -9,14 +9,15 @@ int		strcmp_before_equal(char *search, char *env_line)
 {
 	int		i;
 
-	//printf("search: {%s} in: {%s}\n", search, env_line);
 	i = -1;
-	while (env_line[++i] != '=' )//&& env_line[i] && search[i])
+	while (env_line[++i] != '=' )
 	{
 		if (search[i] != env_line[i])
 			return (0);
 	}
-	return (i);
+	if (!search[i])
+		return (i);
+	return (0);
 }
 
 /*
@@ -67,7 +68,8 @@ char	**get_all_env_path(char *path)
 
 	if (!path)
 		return (NULL);
-	tab = ft_strsplit(path, ':');
+	if (!(tab = ft_strsplit(path, ':')))
+		ERROR_MEM;
 	return (tab);
 }
 
@@ -75,35 +77,26 @@ char	**get_all_env_path(char *path)
 ** realloc envp with +1 line
 */
 
-//add a new var at the end of env and null terminat env
-//void	add_env_var(char *new_var, char **envp)
 char	**add_env_var(char *new_var, char **envp)
 {
 	int		line_count;
 	char	**new;
 
-	ft_putendl("ICICICICICI");
 	line_count = 0;
-	/////
-	//while (envp[line_count])
-	//	line_count++;
-	//// OU
 	line_count = get_ntab_len(envp);
 	if (!(new = (char**)malloc(sizeof(char**) * (line_count + 2))))
 		ERROR_MEM;
 	line_count = -1;
 	while (envp[++line_count])
-		new[line_count] = ft_strdup(envp[line_count]);
-	//envp[line_count] = ft_strdup(new_var);
-	new[line_count] = ft_strdup(new_var);
+	{
+		if (!(new[line_count] = ft_strdup(envp[line_count])))
+			ERROR_MEM;
+	}
+	if (!(new[line_count] = ft_strdup(new_var)))
+		ERROR_MEM;
 	new[line_count + 1] = 0;
-	ft_putendl("---");
-	ft_put_nultab(new);
-	ft_putendl("---");
-	//free plz
 	free_nultab(envp);
-	//envp = new;
-	return (new);//a chier
+	return (new);
 }
 
 char 	**create_minienv(void)
@@ -145,11 +138,11 @@ char	**cpy_envp(char **envp)
 	my_env[tab_len] = NULL;
 	i = -1;
 	while (++i < (int)tab_len)
-		my_env[i] = ft_strdup(envp[i]);
+	{
+		if (!(my_env[i] = ft_strdup(envp[i])))
+			ERROR_MEM;
+	}
 	set_shlvl(&my_env);
-	ft_putendl("+++");
-	ft_put_nultab(my_env);
-	ft_putendl("+++");
 	return (my_env);
 }
 

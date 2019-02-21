@@ -86,6 +86,7 @@ void			exec_permission_denied(char *prog_name);
 void			var_must_begin_letter(char *prog_name);
 void			var_is_not_alphanum(char *prog_name);
 void			too_many_args(char *prog_name);
+void			too_few_args(char *prog_name);
 
 /*
 ** exits.c
@@ -106,7 +107,7 @@ char			**get_all_env_path(char *path);
 char			**cpy_envp(char **envp);
 //void			add_env_var(char *new_var, char **envp);
 char			**add_env_var(char *new_var, char **envp);
-//int				strcmp_before_equal(char *search, char *env_line);
+int				strcmp_before_equal(char *search, char *env_line);
 
 /*
 ** prompt.c
@@ -131,4 +132,11 @@ void			set_shlvl(char ***envp);
 */
 
 void			my_setenv(char **args, char ***env);
+
+/*
+** built_in_unsetenv.c
+*/
+
+int				count_args(char **args);
+void			my_unsetenv(char **args, char ***env);
 #endif

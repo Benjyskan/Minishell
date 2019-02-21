@@ -22,7 +22,6 @@ static void	env_no_args(char **args, char **env)
 {
 	int		i;
 
-	ft_putendl("---------MY ENV function-----------");
 	(void)args;
 	i = -1;
 	while (env[++i])
@@ -31,7 +30,7 @@ static void	env_no_args(char **args, char **env)
 
 void		my_env_function(char **args, char **env)
 {
-	if (!args[1])
+	//if (!args[1])
 		env_no_args(args, env);
 }
 

@@ -52,7 +52,7 @@ void			reset_buf(char *buf, int *i)
 	ft_bzero(buf, BUF_SIZE);	
 }
 
-//unsigned int	get_ntab_len(char **tab)//move to libft
+//move to libft or env_utils.c
 int	get_ntab_len(char **tab)//move to libft
 {
 	//unsigned int	i;
@@ -65,4 +65,3 @@ int	get_ntab_len(char **tab)//move to libft
 		i++;
 	return (i);
 }
-

@@ -43,6 +43,8 @@ int		check_built_in(char **args, t_myenv *my_env)
 		my_env_function(args, my_env->envp);
 	else if ((ft_strcmp(args[0], "setenv")) == 0)
 		my_setenv(args, &my_env->envp);
+	else if ((ft_strcmp(args[0], "unsetenv")) == 0)
+		my_unsetenv(args, &my_env->envp);//&
 	else
 		return (0);
 	return (1);

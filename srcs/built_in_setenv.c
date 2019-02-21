@@ -7,8 +7,10 @@
 int		check_setenv_args(char **args)
 {
 	int		i;
+	int		arg_cnt;
 
-	if (args[3])
+	arg_cnt = count_args(args);
+	if (arg_cnt >= 4)
 	{
 		too_many_args(args[0]);
 		return (0);
