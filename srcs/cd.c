@@ -43,8 +43,9 @@ void	cd_tilde(char **args, t_myenv *my_env)
 	char	home_save[PATH_MAX];
 	int		home_size;
 	int		i;
+	char	tmp[PATH_MAX];
 
-	//if (!get_line_from_env("HOME", my_env->envp))
+	getcwd(tmp, PATH_MAX);
 	if (!get_line_from_env("HOME", my_env->envp)
 			|| *get_line_from_env("HOME", my_env->envp) == 0)
 	{
@@ -57,15 +58,16 @@ void	cd_tilde(char **args, t_myenv *my_env)
 	home_size = ft_strlen(home_save);
 	if (!args[1])
 	{
-		ft_putendl("No ARGS");//tejme
 		if (chdir(home_save) == -1)
 			cd_not_found_str(home_save);
+		ft_strcpy(my_env->old_pwd, tmp);
 		return ;
 	}
 	while (args[1][i])
 		home_save[home_size++] = args[1][i++];
 	if (chdir(home_save) == -1)
 		cd_not_found_str(home_save);
+	ft_strcpy(my_env->old_pwd, tmp);
 }
 
 /*

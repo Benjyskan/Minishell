@@ -7,10 +7,14 @@ int		search_prog(char *prog_path, char **args, char **envp)
 	int		i;
 	int		ret;//can do without it
 
-	if (!(env_paths = get_all_env_path(get_line_from_env("PATH", envp))))
+	if (!(env_paths = get_all_env_path(get_line_from_env("PATH", envp)))
+			|| (ft_strlen(get_line_from_env("PATH", envp)) == 0))
 	{
-		ft_putendl("there is no PATH");
-		return (0);
+		free_nultab(env_paths);
+		env_paths = (char**)malloc(sizeof(char**) * 2);
+		env_paths[0] = malloc(sizeof(char*) * PATH_MAX);
+		env_paths[1] = NULL;
+		getcwd(env_paths[0], PATH_MAX);
 	}
 	i = -1;
 	ret = 1;
@@ -47,7 +51,7 @@ void	my_exec(char *prog_path, char **args, char **envp)
 	{
 		if (execve(prog_path, args, envp) == -1)
 			ERROR_EXEC;
-		ft_putendl("OUIOUIOUIOUIOUIOUI");//this will never happen
+		ft_putendl("OULALALALALA");//this will never happen
 	}
 	else if (pid > 0)
 		wait(&pid);
@@ -127,7 +131,7 @@ int		loop(t_myenv *my_env)
 	{
 		if (ret == -1)//when do i go in ?
 			ERROR_READ;
-/*just*/if (c != 9)//test: c'est degueu//TODO: modif str_split /*this line*/
+///*just*/if (c != 9)//test: c'est degueu//TODO: modif str_split /*this line*/
 			buf[i++] = c;
 		if (c == 10)
 		{
