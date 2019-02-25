@@ -38,6 +38,7 @@ int		cd_arg(char **args, t_myenv *my_env)
 	return (0);
 }
 
+/*
 void	cd_tilde(char **args, t_myenv *my_env)
 {
 	char	home_save[PATH_MAX];
@@ -45,6 +46,7 @@ void	cd_tilde(char **args, t_myenv *my_env)
 	int		i;
 	char	tmp[PATH_MAX];
 
+	ft_putendl("I'm in guys");
 	getcwd(tmp, PATH_MAX);
 	if (!get_line_from_env("HOME", my_env->envp)
 			|| *get_line_from_env("HOME", my_env->envp) == 0)
@@ -69,6 +71,7 @@ void	cd_tilde(char **args, t_myenv *my_env)
 		cd_not_found_str(home_save);
 	ft_strcpy(my_env->old_pwd, tmp);
 }
+*/
 
 /*
 ** cd -: cd to OLD_PWD (and print the absolute path ?)
@@ -83,9 +86,9 @@ void	cd_tilde(char **args, t_myenv *my_env)
 //should i use my struct, or create a mini_env ?
 int		my_cd(char **args, t_myenv *my_env)
 {
-	if (!args[1] || args[1][0] == '~')
-		cd_tilde(args, my_env);
-	else if (args[1] && args[1][0] == '-')//bof
+	//if (!args[1] || args[1][0] == '~')
+	//	cd_tilde(args, my_env);
+	if (args[1] && args[1][0] == '-')//bof
 		cd_dash(args, my_env);//i can put this line in the statement above
 	else if (args[1] && cd_arg(args, my_env))//bof
 		return (1);

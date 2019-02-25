@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/30 15:37:46 by penzo             #+#    #+#              #
-#    Updated: 2019/01/30 15:43:05 by penzo            ###   ########.fr        #
+#    Updated: 2019/02/25 15:59:43 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,7 @@ CFILES=ft_tolower.c \
 	   ft_lstiter.c \
 	   ft_lstmap.c \
 	   ft_put_nultab.c \
+	   ft_is_c_in_str.c \
 	   gnl/get_next_line.c
 
 OFILES=${CFILES:.c=.o}

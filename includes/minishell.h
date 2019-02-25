@@ -145,4 +145,17 @@ void			my_unsetenv(char **args, char ***env);
 */
 
 int				count_args(char **args);
+int				expand_vars(char **args, char **env);
+
+/*
+** strsplit_multi.c
+*/
+
+char			**strsplit_multi(char const *s, char *separators);
+
+/*
+** expand.c
+*/
+
+int				expand_vars(char **args, char **env);
 #endif

@@ -5,6 +5,7 @@
 ** return 1 if everything is found
 */
 
+/*
 static int	check_echo_line(char **args, t_myenv *my_env)
 {
 	int		i;
@@ -31,6 +32,7 @@ static int	check_echo_line(char **args, t_myenv *my_env)
 	}
 	return (1);
 }
+*/
 
 static void	output_echo_line(char **args, t_myenv *my_env)
 {
@@ -41,20 +43,20 @@ static void	output_echo_line(char **args, t_myenv *my_env)
 	{
 		if (i != 1)
 			ft_putchar_fd(' ', 1);
-		if (args[i][0] == '$' && args[i][1] != 0)
-			ft_putstr_fd(get_line_from_env(args[i] + 1, my_env->envp), 1);
-		else if (args[i][0] == '~' && args[i][1] == 0)
-			ft_putstr_fd(get_line_from_env("HOME", my_env->envp), 1);
-		else
-			ft_putstr_fd(args[i], 1);
+		//if (args[i][0] == '$' && args[i][1] != 0)
+		//	ft_putstr_fd(get_line_from_env(args[i] + 1, my_env->envp), 1);
+		//else if (args[i][0] == '~' && args[i][1] == 0)
+		//	ft_putstr_fd(get_line_from_env("HOME", my_env->envp), 1);
+		//else
+		ft_putstr_fd(args[i], 1);
 	}
 	ft_putchar_fd('\n', 1);
 }
 
 void	my_echo(char **args, t_myenv *my_env)
 {
-	if (!check_echo_line(args, my_env))
-		return ;
-	else
+	//if (!check_echo_line(args, my_env))
+	//	return ;
+	//else
 		output_echo_line(args, my_env);
 }

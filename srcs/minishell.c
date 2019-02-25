@@ -59,6 +59,7 @@ void	my_exec(char *prog_path, char **args, char **envp)
 		ERROR_FORK;
 }
 
+
 void	get_right_cmd(char **args, t_myenv *my_env)
 {
 	int		pid;
@@ -67,8 +68,7 @@ void	get_right_cmd(char **args, t_myenv *my_env)
 
 	(void)pid;
 	//TODO: Free when i exit(built_in)
-	//check if start with '/' here
-	if (args[0][0] == '/')
+	if (ft_is_c_in_str(args[0], '/'))
 	{
 		//check if command exist
 		if (!access(args[0], F_OK))
@@ -88,17 +88,11 @@ void	get_right_cmd(char **args, t_myenv *my_env)
 	}
 	//search_prog should return 1 if found, 0 otherwise
 	//and set prog_path
-	//if args start with a '/', i shouldn't use search_prog()
 	ret = search_prog(prog_path, args, my_env->envp);
 	if (ret == 1)
-	{
-		ft_putstr("prog_path: ");//
-		ft_putendl(prog_path);//
 		my_exec(prog_path, args, my_env->envp);
-	}
 	else if (ret == 0)
 		cmd_not_found(args[0]);
-	//free args
 	free_nultab(args);
 }
 
@@ -107,12 +101,19 @@ void	get_cmd_args(char *line, t_myenv *my_env)
 {
 	char	**args;
 
-	args = ft_strsplit(line, ' ');
+	if (!(args = strsplit_multi(line, " \t")))//is it useless
+		ERROR_MEM;
 	if (!*args)
 	{
 		free(args);
 		return ;
 	}
+	//expand here ?
+	if (!(expand_vars(args, my_env->envp)))
+		return ;
+	ft_putendl("---");
+	ft_put_nultab(args);
+	ft_putendl("---");
 	get_right_cmd(args, my_env);
 }
 
@@ -123,16 +124,16 @@ int		loop(t_myenv *my_env)
 	int		i;
 	int		ret;
 
-	buf = ft_strnew(BUF_SIZE);
+	if (!(buf = ft_strnew(BUF_SIZE)))
+		ERROR_MEM;
 	i = 0;
 	ret = 0;
-	print_prompt();
-	while ((ret = read(1, &c, 1)))
+	print_prompt();//check echo ls | ./minishell
+	while ((ret = read(0, &c, 1)))
 	{
 		if (ret == -1)//when do i go in ?
 			ERROR_READ;
-///*just*/if (c != 9)//test: c'est degueu//TODO: modif str_split /*this line*/
-			buf[i++] = c;
+		buf[i++] = c;
 		if (c == 10)
 		{
 			buf[i - 1] = 0;
@@ -144,7 +145,7 @@ int		loop(t_myenv *my_env)
 	}
 	ft_memdel((void*)&buf);//pas sure
 	free_nultab(my_env->envp);
-	ft_putendl_fd("exit", 2);//<C-d>
+	ft_putendl_fd("exit", 2);//<C-d> //check echo ls | ./minishell
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 14:00:22 by penzo             #+#    #+#             */
-/*   Updated: 2019/01/30 15:05:14 by penzo            ###   ########.fr       */
+/*   Updated: 2019/02/25 16:00:53 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int					ft_isascii(int c);
 int					ft_isalnum(int c);
 int					ft_isdigit(int c);
 int					ft_isalpha(int c);
+int					ft_is_c_in_str(char *str, char c);
 void				ft_swap(void *a, void *b);
 size_t				ft_strlen(const char *s);
 char				*ft_strdup(const char *s1);
