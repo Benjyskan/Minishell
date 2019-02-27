@@ -57,6 +57,7 @@ static int	check_dollars(char *arg, char **env, int *ret)
 			{
 				undefined_variable(tmp);
 				free(tmp);//check
+				free(arg);//test
 				return (0);//output var does't exist
 			}
 			malloc_len += ft_strlen(get_line_from_env(tmp, env));
@@ -65,11 +66,13 @@ static int	check_dollars(char *arg, char **env, int *ret)
 		}
 	}
 	*ret = malloc_len;
-	//return (malloc_len);//check me; in fact: is A CHIER
-	return (1);//check me; in fact: is A CHIER
+	return (1);
 }
 
-//return size of unexpanded var
+/*
+** return size of expanded variable
+*/
+
 static int	expand_dollar(char *old, char *new, char **env)
 {
 	char	*var;
@@ -77,16 +80,10 @@ static int	expand_dollar(char *old, char *new, char **env)
 	int		var_name_len;
 	int		i;
 
-	//ft_putstr("in expand_dollar: ");
-	//ft_putendl(old);
 	if (!(var_name = get_var_name(old)))
 		ERROR_MEM;
 	var = get_line_from_env(var_name, env);
 	var_name_len = ft_strlen(var_name);
-	//ft_putstr("in expand_dollar var_name: ");
-	//ft_putendl(var_name);
-	//ft_putstr("in expand_dollar var: ");
-	//ft_putendl(var);
 	free(var_name);
 	i = -1;
 	while (var[++i])
@@ -101,7 +98,7 @@ static char	*expand_dollars(char *arg, char **env)
 	int		i;
 	int		j;
 
-	if (!(an_int = check_dollars(arg, env, &an_int)))
+	if (!(check_dollars(arg, env, &an_int)))
 		return (NULL);
 	an_int += ft_strlen(arg);
 	if (!(new = ft_strnew(an_int)))
@@ -120,8 +117,6 @@ static char	*expand_dollars(char *arg, char **env)
 		else
 			new[j++] = arg[i];
 	}
-	ft_putstr("^^^:");
-	ft_putendl(new);
 	free(arg);
 	return (new);
 }

@@ -21,7 +21,6 @@ int		search_prog(char *prog_path, char **args, char **envp)
 	while (env_paths[++i])
 	{
 		append_path_nomalloc(env_paths[i], args[0], path);
-		//if no access, output msg
 		if (!access(path, F_OK))
 			ret = access(path, X_OK);
 		if (ret == 0)//0 is good
@@ -39,7 +38,6 @@ int		search_prog(char *prog_path, char **args, char **envp)
 	}
 	free_nultab(env_paths);
 	return (0);
-	//ask scott why prog_path is modified out of the function
 }
 
 void	my_exec(char *prog_path, char **args, char **envp)
@@ -110,10 +108,10 @@ void	get_cmd_args(char *line, t_myenv *my_env)
 	}
 	//expand here ?
 	if (!(expand_vars(args, my_env->envp)))
+	{
+		free_nultab(args);
 		return ;
-	ft_putendl("---");
-	ft_put_nultab(args);
-	ft_putendl("---");
+	}
 	get_right_cmd(args, my_env);
 }
 
