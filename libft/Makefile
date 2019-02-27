@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/30 15:37:46 by penzo             #+#    #+#              #
-#    Updated: 2019/02/25 15:59:43 by penzo            ###   ########.fr        #
+#    Updated: 2019/02/27 02:20:39 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,8 @@ CFILES=ft_tolower.c \
 	   ft_lstmap.c \
 	   ft_put_nultab.c \
 	   ft_is_c_in_str.c \
-	   gnl/get_next_line.c
+	   gnl/get_next_line.c \
+	   get_ntab_len.c
 
 OFILES=${CFILES:.c=.o}
 DEPS=libft.h

@@ -13,7 +13,6 @@ int				is_str_digit(char *str)
 	return (1);
 }
 
-//do i use it ?
 void			strjoin_equal_nomalloc(char *s1, char *s2, char *result)
 {
 	int		i;
@@ -31,7 +30,8 @@ void			strjoin_equal_nomalloc(char *s1, char *s2, char *result)
 		result[++i] = s2[j];
 }
 
-void			append_path_nomalloc(char *env_path, char *prog_name, char *result)
+void			append_path_nomalloc(char *env_path,
+				char *prog_name, char *result)
 {
 	int		i;
 	int		j;
@@ -49,19 +49,5 @@ void			append_path_nomalloc(char *env_path, char *prog_name, char *result)
 void			reset_buf(char *buf, int *i)
 {
 	*i = 0;
-	ft_bzero(buf, BUF_SIZE);	
-}
-
-//move to libft or env_utils.c
-int	get_ntab_len(char **tab)//move to libft
-{
-	//unsigned int	i;
-	int	i;
-
-	if (!tab)
-		return (0);
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
+	ft_bzero(buf, BUF_SIZE);
 }

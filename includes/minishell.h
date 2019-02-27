@@ -12,8 +12,8 @@
 # define SHELL_NAME "my_sh"
 # define ERROR_MEM exit(1) //naze
 # define ERROR_READ exit(1) //naze
-//# define ERROR_EXEC exit(1) //naze
-# define ERROR_EXEC ft_putendl("SDFSDFSDF") //naze
+# define ERROR_EXEC exit(1) //naze
+//# define ERROR_EXEC ft_putendl("Error exec (macro)") //naze
 # define ERROR_FORK exit(1) //naze
 # define ERROR_ENV exit(1) //naze
 
@@ -72,7 +72,7 @@ int				is_str_digit(char *str);
 void			reset_buf(char *buf, int *i);
 void			append_path_nomalloc(char *env_path, char *prog_name,
 		char *result);
-int				get_ntab_len(char **tab);
+//int				get_ntab_len(char **tab);
 void			strjoin_equal_nomalloc(char *s1, char *s2, char *result);
 
 /*

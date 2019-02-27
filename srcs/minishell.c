@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+static void	replace_path_with_cwd(char ***env_paths)
+{
+	free_nultab(*env_paths);
+	*env_paths = (char**)malloc(sizeof(char**) * 2);
+	*env_paths[0] = malloc(sizeof(char*) * PATH_MAX);
+	env_paths[0][1] = NULL;
+	getcwd(*env_paths[0], PATH_MAX);
+}
+
 int		search_prog(char *prog_path, char **args, char **envp)
 {
 	char	**env_paths;
@@ -9,15 +18,10 @@ int		search_prog(char *prog_path, char **args, char **envp)
 
 	if (!(env_paths = get_all_env_path(get_line_from_env("PATH", envp)))
 			|| (ft_strlen(get_line_from_env("PATH", envp)) == 0))
-	{
-		free_nultab(env_paths);
-		env_paths = (char**)malloc(sizeof(char**) * 2);
-		env_paths[0] = malloc(sizeof(char*) * PATH_MAX);
-		env_paths[1] = NULL;
-		getcwd(env_paths[0], PATH_MAX);
-	}
+		replace_path_with_cwd(&env_paths);
 	i = -1;
 	ret = 1;
+	ft_bzero(prog_path, ft_strlen(prog_path));
 	while (env_paths[++i])
 	{
 		append_path_nomalloc(env_paths[i], args[0], path);
@@ -49,7 +53,7 @@ void	my_exec(char *prog_path, char **args, char **envp)
 	{
 		if (execve(prog_path, args, envp) == -1)
 			ERROR_EXEC;
-		ft_putendl("OULALALALALA");//this will never happen
+		ft_putendl("OULALALALALA");//this will never happen; enfaite si, sur un exec sans les droits, plus maintenant, vu que j'exit;
 	}
 	else if (pid > 0)
 		wait(&pid);
@@ -86,10 +90,21 @@ void	get_right_cmd(char **args, t_myenv *my_env)
 	}
 	//search_prog should return 1 if found, 0 otherwise
 	//and set prog_path
-	ret = search_prog(prog_path, args, my_env->envp);
-	if (ret == 1)
+	///////////
+	//ret = search_prog(prog_path, args, my_env->envp);
+	//if (ret == 1)
+	//	my_exec(prog_path, args, my_env->envp);
+	//else if (ret == 0)
+	//	cmd_not_found(args[0]);
+	//free_nultab(args);
+	////////////
+	if (search_prog(prog_path, args, my_env->envp))
+	{
+		ft_putstr("prog_path: ");
+		ft_putendl(prog_path);
 		my_exec(prog_path, args, my_env->envp);
-	else if (ret == 0)
+	}
+	else
 		cmd_not_found(args[0]);
 	free_nultab(args);
 }

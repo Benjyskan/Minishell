@@ -79,7 +79,8 @@ char		**strsplit_multi(char const *s, char *separators)
 
 	if (!s || !separators)
 		return (NULL);
-	if (!(tab = (char**)malloc(sizeof(char*) * (count_words(s, separators) + 1))))
+	if (!(tab = (char**)malloc(sizeof(char*)
+					* (count_words(s, separators) + 1))))
 		return (NULL);
 	if (!fill_tab(tab, (char*)s, separators))
 		return (NULL);

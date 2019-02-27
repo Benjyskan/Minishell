@@ -131,12 +131,12 @@ char	**cpy_envp(char **envp)
 	char			**my_env;
 	int				i;
 
-	if (!*envp)//useless, vu que je check dans la fonct precedente
-	{
-		ft_putendl("WEHEHEY, tu ne me veras jamais !!!!");
-		my_env = NULL;// ou mini_env ?
-		return (my_env);
-	}
+	//if (!*envp)//useless, vu que je check dans la fonct precedente
+	//{
+	//	ft_putendl("WEHEHEY, tu ne me veras jamais !!!!");
+	//	my_env = NULL;// ou mini_env ?
+	//	return (my_env);
+	//}
 	tab_len = get_ntab_len(envp);
 	if (!(my_env = (char**)malloc(sizeof(char**) * (tab_len + 1))))
 		ERROR_MEM;

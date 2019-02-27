@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	ft_getnblen(int n)//add to libft ?
+static int	ft_getnblen(int n)
 {
 	int		len;
 
@@ -48,7 +48,7 @@ static void	shlvl_plus_one(char *shlvl, char **envp)
 		ERROR_MEM;
 	ft_strcpy(envp[line_index], "SHLVL=");
 	tmp = ft_itoa(nb);
-	ft_strlcat(envp[line_index], tmp, 7 + shlvl_len);//protect??
+	ft_strlcat(envp[line_index], tmp, 7 + shlvl_len);
 	free(tmp);
 }
 
