@@ -75,6 +75,7 @@ char	**get_all_env_path(char *path)
 
 /*
 ** realloc envp with +1 line
+** and add the string new_var to envp
 */
 
 char	**add_env_var(char *new_var, char **envp)
@@ -82,7 +83,7 @@ char	**add_env_var(char *new_var, char **envp)
 	int		line_count;
 	char	**new;
 
-	line_count = 0;
+	line_count = 0;//useless ?
 	line_count = get_ntab_len(envp);
 	if (!(new = (char**)malloc(sizeof(char**) * (line_count + 2))))
 		ERROR_MEM;
@@ -101,14 +102,20 @@ char	**add_env_var(char *new_var, char **envp)
 
 char 	**create_minienv(void)
 {
-	int		init_lines = 2;//!!!
+	int		init_lines = 3;//!!!
 	char	**envp;
+	char	pwd[PATH_MAX];
 
 	if (!(envp = (char**)malloc(sizeof(char**) * init_lines)))
 		ERROR_MEM;
 	if (!(envp[0] = ft_strnew(6 + 8)))
 		ERROR_MEM;
 	ft_strcpy(envp[0], "SHLVL=1");
+	getcwd(pwd, PATH_MAX);
+	if (!(envp[1] = ft_strnew(4 + ft_strlen(pwd))))
+		ERROR_MEM;
+	ft_strcpy(envp[1], "PWD=");
+	ft_strcpy(&envp[1][4], pwd);
 	envp[init_lines - 1] = NULL;
 	return (envp);
 }

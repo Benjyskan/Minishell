@@ -1,5 +1,25 @@
 #include "minishell.h"
 
+/*
+** set_env_pwds set PWD each time I cd
+*/
+
+static void	set_env_pwd(char **env)
+{
+	char	path[PATH_MAX];
+	char	*new;
+	int		i;
+
+	getcwd(path, PATH_MAX);
+	i = get_linenumber_from_env("PWD", env);
+	if (!(new = ft_strnew(4 + ft_strlen(path))))
+		ERROR_MEM;
+	ft_strcpy(new, "PWD=");
+	ft_strcpy(&new[4], path);
+	free(env[i]);
+	env[i] = new;
+}
+
 void	cd_dash(char **args, t_myenv *my_env)
 {
 	char	tmp[PATH_MAX];
@@ -8,16 +28,14 @@ void	cd_dash(char **args, t_myenv *my_env)
 	if (ft_strcmp(args[1], "-") == 0)
 	{
 		if (!access(my_env->old_pwd, F_OK))
-		{
 			chdir(my_env->old_pwd);
-			//ft_putendl(my_env->old_pwd);
-		}
 		else
 			cd_not_found_str(my_env->old_pwd);
 	}
 	else
 		cd_invalid_option(args, my_env);
 	ft_strcpy(my_env->old_pwd, tmp);
+	set_env_pwd(my_env->envp);
 }
 
 int		cd_arg(char **args, t_myenv *my_env)
@@ -35,6 +53,7 @@ int		cd_arg(char **args, t_myenv *my_env)
 		return (1);
 	}
 	ft_strcpy(my_env->old_pwd, tmp);
+	set_env_pwd(my_env->envp);
 	return (0);
 }
 
@@ -45,7 +64,6 @@ void	cd_tilde(char **args, t_myenv *my_env)
 	int		i;
 	char	tmp[PATH_MAX];
 
-	ft_putendl("I'm in guys");
 	getcwd(tmp, PATH_MAX);
 	if (!get_line_from_env("HOME", my_env->envp)
 			|| *get_line_from_env("HOME", my_env->envp) == 0)
@@ -60,6 +78,7 @@ void	cd_tilde(char **args, t_myenv *my_env)
 	if (chdir(home_save) == -1)
 		cd_not_found_str(home_save);
 	ft_strcpy(my_env->old_pwd, tmp);
+	set_env_pwd(my_env->envp);
 	return ;
 }
 
