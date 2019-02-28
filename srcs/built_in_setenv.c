@@ -34,7 +34,6 @@ int		check_setenv_args(char **args)
 
 void	reset_env_var(char **args, char **env)
 {
-	//char	tmp[ARG_MAX];
 	int		i;
 	int		j;
 	int		new_size;
@@ -67,7 +66,6 @@ void	my_setenv(char **args, char ***env)
 {
 	char	*env_var;
 	char	test[ARG_MAX];//really really DEGUEU
-	//int		i;
 
 	if (!args[1])
 	{
@@ -80,7 +78,6 @@ void	my_setenv(char **args, char ***env)
 		reset_env_var(args, *env);
 	else
 	{
-		//test = NULL;//is it cleaner ?
 		if (args[2])
 			strjoin_equal_nomalloc(args[1], args[2], test);
 		else

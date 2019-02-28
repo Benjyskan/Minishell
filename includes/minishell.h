@@ -20,9 +20,8 @@
 typedef struct	s_myenv
 {
 	char		**envp;
-	//char		home[PATH_MAX];//useless ?
-	//char		pwd[PATH_MAX];//useless ?
-	char		old_pwd[PATH_MAX];
+	//char		old_pwd[PATH_MAX];
+	char		*old_pwd;
 }				t_myenv;
 
 /*
@@ -92,9 +91,9 @@ void			too_few_args(char *prog_name);
 ** exits.c
 */
 
-void			exit_not_digit(char **args, char **env);
+void			exit_not_digit(char **args, t_myenv *my_env);
 void			exit_many_args(void);
-void			exit_numeric(char **args, char **env);
+void			exit_numeric(char **args, t_myenv *my_env);
 
 /*
 ** env_utils.c

@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 13:11:24 by penzo             #+#    #+#             */
-/*   Updated: 2019/02/28 14:28:06 by penzo            ###   ########.fr       */
+/*   Updated: 2019/02/28 17:51:30 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	**create_minienv(void)
 {
 	int		init_lines;
 	char	**envp;
-	char	pwd[PATH_MAX];
+	char	*cwd;
 
 	init_lines = 3;
 	if (!(envp = (char**)malloc(sizeof(char**) * init_lines)))
@@ -24,12 +24,14 @@ static char	**create_minienv(void)
 	if (!(envp[0] = ft_strnew(7 + 8)))
 		ERROR_MEM;
 	ft_strcpy(envp[0], "SHLVL=1");
-	getcwd(pwd, PATH_MAX);
-	if (!(envp[1] = ft_strnew(4 + ft_strlen(pwd))))
+	if (!(cwd = getcwd(NULL, 0)))
+		ERROR_MEM;
+	if (!(envp[1] = ft_strnew(4 + ft_strlen(cwd))))
 		ERROR_MEM;
 	ft_strcpy(envp[1], "PWD=");
-	ft_strcpy(&envp[1][4], pwd);
+	ft_strcpy(&envp[1][4], cwd);
 	envp[init_lines - 1] = NULL;
+	free(cwd);
 	return (envp);
 }
 
@@ -64,9 +66,14 @@ static char	**cpy_envp(char **envp)
 
 void		init_env(char **envp, t_myenv *my_env)
 {
-	ft_bzero(my_env->old_pwd, PATH_MAX);
+	//ft_bzero(my_env->old_pwd, PATH_MAX);
+	my_env->old_pwd = NULL;
+	//TODO: modify old_pwd to char*, and free it when needed
 	if (*envp)
+	{
 		my_env->envp = cpy_envp(envp);
+		my_env->old_pwd = NULL;
+	}
 	else
 		my_env->envp = create_minienv();
 	return ;

@@ -11,6 +11,7 @@ static char	*expand_tilde(char *arg, char **env)
 	if (!get_line_from_env("HOME", env) || !(*get_line_from_env("HOME", env)))
 	{
 		ft_putendl_fd("No $home variable set.", 2);
+		free(arg);
 		return (NULL);
 	}
 	home_str = get_line_from_env("HOME", env);

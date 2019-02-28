@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 17:50:27 by penzo             #+#    #+#              #
-#    Updated: 2019/02/28 12:10:33 by penzo            ###   ########.fr        #
+#    Updated: 2019/02/28 19:10:19 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ fclean: clean
 re: fclean all
 
 d:	all
-	./$(NAME)
+	env -i ./$(NAME)
 
 #tmp:
 	#$(CC) $(WFLAGS) $(INCL) $(LIBS) -o tmp $(SRCS) tmp_main.c
@@ -65,6 +65,7 @@ fsa: $(OBJS) libft/libft.a Makefile
 
 val:
 	$(CC) -g $(WFLAGS) $(INCL) $(LIBS) -o $(NAME) $(SRCS)
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all \
+		./$(NAME)
 
 .PHONY: all clean fclean re

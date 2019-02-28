@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/28 19:19:12 by penzo             #+#    #+#             */
+/*   Updated: 2019/02/28 19:19:13 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -6,52 +18,40 @@
 
 static void	set_env_pwd(char ***env)
 {
-	char	path[PATH_MAX];
-	char	new_var[PATH_MAX];
+	char	*cwd;
 	char	*new;
 	int		i;
 
-	getcwd(path, PATH_MAX);
+	if (!(cwd = getcwd(NULL, 0)))
+		ERROR_MEM;
 	i = get_linenumber_from_env("PWD", *env);
-	if (i == -1)
-	{
-		ft_bzero(new_var, PATH_MAX);
-		ft_strcpy(new_var, "PWD=");
-		ft_strcpy(&new_var[4], path);
-		*env = add_env_var(new_var, *env);
-		return ;
-	}
-	printf("i: %d\n", i);
-	if (!(new = ft_strnew(4 + ft_strlen(path))))
+	if (!(new = ft_strnew(4 + ft_strlen(cwd))))
 		ERROR_MEM;
 	ft_strcpy(new, "PWD=");
-	ft_strcpy(&new[4], path);
-	free((*env)[i]);
-	(*env)[i] = new;
+	ft_strcpy(&new[4], cwd);
+	if (i == -1)
+		*env = add_env_var(new, *env);
+	else
+	{
+		free((*env)[i]);
+		(*env)[i] = new;
+	}
+	free(cwd);
 }
 
-/*static void	set_env_pwd(char **env)
+void		cd_dash(char **args, t_myenv *my_env)
 {
-	char	path[PATH_MAX];
-	char	*new;
-	int		i;
+	char	*cwd;
 
-	getcwd(path, PATH_MAX);
-	i = get_linenumber_from_env("PWD", env);
-	printf("i: %d\n", i);
-	if (!(new = ft_strnew(4 + ft_strlen(path))))
+	cwd = NULL;
+	if (!(cwd = getcwd(NULL, 0)))
 		ERROR_MEM;
-	ft_strcpy(new, "PWD=");
-	ft_strcpy(&new[4], path);
-	free(env[i]);
-	env[i] = new;
-}*/
-
-void	cd_dash(char **args, t_myenv *my_env)
-{
-	char	tmp[PATH_MAX];
-
-	getcwd(tmp, PATH_MAX);
+	if (!my_env->old_pwd)
+	{
+		cd_not_found_str(my_env->old_pwd);
+		free(cwd);
+		return ;
+	}
 	if (ft_strcmp(args[1], "-") == 0)
 	{
 		if (!access(my_env->old_pwd, F_OK))
@@ -61,73 +61,63 @@ void	cd_dash(char **args, t_myenv *my_env)
 	}
 	else
 		cd_invalid_option(args, my_env);
-	ft_strcpy(my_env->old_pwd, tmp);
+	free(my_env->old_pwd);
+	my_env->old_pwd = ft_strdup(cwd);
 	set_env_pwd(&my_env->envp);
+	free(cwd);
 }
 
-int		cd_arg(char **args, t_myenv *my_env)
+int			cd_arg(char **args, t_myenv *my_env)
 {
-	char	tmp[PATH_MAX];
+	char	*cwd;
 
-	getcwd(tmp, PATH_MAX);
+	if (!(cwd = getcwd(NULL, 0)))
+		ERROR_MEM;
 	if (chdir(args[1]) == -1)
 	{
 		if (!access(args[1], F_OK))
 			cd_permi_denied(args, my_env->envp);
 		else
 			cd_not_found_str(args[1]);
-			//cd_not_found(args, my_env->envp);
+		free(cwd);
 		return (1);
 	}
-	ft_strcpy(my_env->old_pwd, tmp);
+	free(my_env->old_pwd);
+	my_env->old_pwd = ft_strdup(cwd);
 	set_env_pwd(&my_env->envp);
+	free(cwd);
 	return (0);
 }
 
-void	cd_tilde(char **args, t_myenv *my_env)
+void		cd_tilde(char **args, t_myenv *my_env)
 {
-	char	home_save[PATH_MAX];
-	int		home_size;
-	int		i;
-	char	tmp[PATH_MAX];
+	char	*cwd;
 
-	getcwd(tmp, PATH_MAX);
+	if (!(cwd = getcwd(NULL, 0)))
+		ERROR_MEM;
 	if (!get_line_from_env("HOME", my_env->envp)
 			|| *get_line_from_env("HOME", my_env->envp) == 0)
 	{
 		ft_putendl_fd("No $home variable set.", 2);
+		free(cwd);
 		return ;
 	}
-	i = 1;
-	ft_bzero(home_save, PATH_MAX);
-	ft_strcpy(home_save, get_line_from_env("HOME", my_env->envp));
-	home_size = ft_strlen(home_save);
-	if (chdir(home_save) == -1)
-		cd_not_found_str(home_save);
-	ft_strcpy(my_env->old_pwd, tmp);
+	if (chdir(get_line_from_env("HOME", my_env->envp)) == -1)
+		cd_not_found_str(get_line_from_env("HOME", my_env->envp));
+	free(my_env->old_pwd);
+	my_env->old_pwd = ft_strdup(cwd);
 	set_env_pwd(&my_env->envp);
+	free(cwd);
 	return ;
 }
 
-/*
-** cd -: cd to OLD_PWD (and print the absolute path ? no)
-** cd : cd to ~
-** cd return 0 if succesfull
-** cd return 1 if it fail
-**
-** cd reset PWD and OLDPWD even if they don't exist anymore
-*/
-
-//i need to refresh PWD and OLDPWD:
-//should i use my struct, or create a mini_env ?
-int		my_cd(char **args, t_myenv *my_env)
+int			my_cd(char **args, t_myenv *my_env)
 {
-	//if (!args[1] || args[1][0] == '~')
 	if (!args[1])
 		cd_tilde(args, my_env);
-	if (args[1] && args[1][0] == '-')//bof
-		cd_dash(args, my_env);//i can put this line in the statement above
-	else if (args[1] && cd_arg(args, my_env))//bof
+	if (args[1] && args[1][0] == '-')
+		cd_dash(args, my_env);
+	else if (args[1] && cd_arg(args, my_env))
 		return (1);
 	return (0);
 }
