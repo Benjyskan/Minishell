@@ -20,7 +20,6 @@
 typedef struct	s_myenv
 {
 	char		**envp;
-	//char		old_pwd[PATH_MAX];
 	char		*old_pwd;
 }				t_myenv;
 
@@ -147,7 +146,6 @@ void			my_unsetenv(char **args, char ***env);
 ** cmdline_utils.c
 */
 
-int				count_args(char **args);
 int				expand_vars(char **args, char **env);
 
 /*

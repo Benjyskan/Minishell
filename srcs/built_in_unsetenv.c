@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_in_unsetenv.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/28 20:26:57 by penzo             #+#    #+#             */
+/*   Updated: 2019/02/28 20:26:57 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-
-static int		count_valid_args(char **args, char **env)
+static int	count_valid_args(char **args, char **env)
 {
 	int		i;
 	int		count;
@@ -20,7 +31,7 @@ static int		count_valid_args(char **args, char **env)
 ** return 1 if env_line isn't found within args
 */
 
-int		cmp_envvarname_with_args(char *env_line, char **args)
+static int	cmp_envvarname_with_args(char *env_line, char **args)
 {
 	int		i;
 
@@ -33,7 +44,7 @@ int		cmp_envvarname_with_args(char *env_line, char **args)
 	return (1);
 }
 
-char	**cpy_unsetenv(char **args, char **env, char **new_env)
+static char	**cpy_unsetenv(char **args, char **env, char **new_env)
 {
 	int		i;
 	int		j;
@@ -53,7 +64,7 @@ char	**cpy_unsetenv(char **args, char **env, char **new_env)
 	return (new_env);
 }
 
-void	my_unsetenv(char **args, char ***env)
+void		my_unsetenv(char **args, char ***env)
 {
 	int		arg_cnt;
 	int		tab_len;
@@ -67,7 +78,7 @@ void	my_unsetenv(char **args, char ***env)
 	if (!(arg_cnt = count_valid_args(args, *env)))
 		return ;
 	tab_len = get_ntab_len(*env);
-	if (!(new_env = malloc(sizeof(char**) * (tab_len - arg_cnt + 1))))//hmm
+	if (!(new_env = malloc(sizeof(char**) * (tab_len - arg_cnt + 1))))
 		ERROR_MEM;
 	*env = cpy_unsetenv(args, *env, new_env);
 }

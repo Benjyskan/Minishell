@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_in_setenv.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/28 20:19:22 by penzo             #+#    #+#             */
+/*   Updated: 2019/02/28 20:20:27 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-/* 
+/*
 ** check_setenv_args return 0 if invalid
 */
 
-int		check_setenv_args(char **args)
+static int	check_setenv_args(char **args)
 {
 	int		i;
 	int		arg_cnt;
@@ -32,7 +44,7 @@ int		check_setenv_args(char **args)
 	return (1);
 }
 
-void	reset_env_var(char **args, char **env)
+static void	reset_env_var(char **args, char **env)
 {
 	int		i;
 	int		j;
@@ -54,18 +66,35 @@ void	reset_env_var(char **args, char **env)
 		ft_strcpy(env[i] + j, args[2]);
 }
 
+static char	*strjoin_equal(char *s1, char *s2)
+{
+	int		len;
+	char	*res;
+	int		i;
+
+	if (s2)
+		len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	else
+		len = ft_strlen(s1) + 1;
+	if (!(res = ft_strnew(len)))
+		ERROR_MEM;
+	ft_strcpy(res, s1);
+	i = 0;
+	while (res[i])
+		i++;
+	res[i++] = '=';
+	if (s2)
+		ft_strcpy(&res[i], s2);
+	return (res);
+}
+
 /*
 ** syntax: setenv TOTO TATA
 */
 
-//TODO: check [a-zA-Z0-9_], for env too (T.T)
-//and doesn't start with number
-//TODO: if no args, exec env
-//***env ?
-void	my_setenv(char **args, char ***env)
+void		my_setenv(char **args, char ***env)
 {
 	char	*env_var;
-	char	test[ARG_MAX];//really really DEGUEU
 
 	if (!args[1])
 	{
@@ -78,10 +107,8 @@ void	my_setenv(char **args, char ***env)
 		reset_env_var(args, *env);
 	else
 	{
-		if (args[2])
-			strjoin_equal_nomalloc(args[1], args[2], test);
-		else
-			strjoin_equal_nomalloc(args[1], NULL, test);
-		*env = add_env_var(test, *env);
+		env_var = strjoin_equal(args[1], args[2]);
+		*env = add_env_var(env_var, *env);
+		ft_memdel((void*)&env_var);
 	}
 }

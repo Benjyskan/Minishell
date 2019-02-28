@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/28 20:23:32 by penzo             #+#    #+#             */
+/*   Updated: 2019/02/28 20:23:32 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -63,7 +75,6 @@ char	**add_env_var(char *new_var, char **envp)
 	int		line_count;
 	char	**new;
 
-	//line_count = 0;//useless ?
 	line_count = get_ntab_len(envp);
 	if (!(new = (char**)malloc(sizeof(char**) * (line_count + 2))))
 		ERROR_MEM;
