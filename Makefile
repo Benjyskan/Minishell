@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 17:50:27 by penzo             #+#    #+#              #
-#    Updated: 2019/02/25 17:47:11 by penzo            ###   ########.fr        #
+#    Updated: 2019/02/28 12:10:33 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC		:=	minishell.c built_in.c str_utils.c exits.c env_utils.c \
 			prompt.c cd.c free.c cd_errors.c built_in_env.c shlvl.c \
 			built_in_echo.c built_in_setenv.c msg.c msg2.c \
 			built_in_unsetenv.c cmdline_utils.c strsplit_multi.c \
-			expand.c
+			expand.c exec.c init_env.c
 
 SRCS	:=	$(addprefix srcs/, $(SRC))
 OBJS	:=	$(SRCS:.c=.o)
@@ -65,6 +65,6 @@ fsa: $(OBJS) libft/libft.a Makefile
 
 val:
 	$(CC) -g $(WFLAGS) $(INCL) $(LIBS) -o $(NAME) $(SRCS)
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all env -i toto=ljhsd ./$(NAME)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean re

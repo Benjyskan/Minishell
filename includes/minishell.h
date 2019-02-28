@@ -20,8 +20,8 @@
 typedef struct	s_myenv
 {
 	char		**envp;
-	char		home[PATH_MAX];//useless ?
-	char		pwd[PATH_MAX];//useless ?
+	//char		home[PATH_MAX];//useless ?
+	//char		pwd[PATH_MAX];//useless ?
 	char		old_pwd[PATH_MAX];
 }				t_myenv;
 
@@ -72,8 +72,8 @@ int				is_str_digit(char *str);
 void			reset_buf(char *buf, int *i);
 void			append_path_nomalloc(char *env_path, char *prog_name,
 		char *result);
-//int				get_ntab_len(char **tab);
 void			strjoin_equal_nomalloc(char *s1, char *s2, char *result);
+int				strcmp_before_equal(char *search, char *env_line);
 
 /*
 ** msg.c
@@ -100,14 +100,18 @@ void			exit_numeric(char **args, char **env);
 ** env_utils.c
 */
 
-int				init_env(char **envp, t_myenv *my_env);
 char			*get_line_from_env(char *search, char **env);
 int				get_linenumber_from_env(char *search, char **env);
 char			**get_all_env_path(char *path);
-char			**cpy_envp(char **envp);
 //void			add_env_var(char *new_var, char **envp);
 char			**add_env_var(char *new_var, char **envp);
-int				strcmp_before_equal(char *search, char *env_line);
+
+/*
+** init_env.c
+*/
+
+void			init_env(char **envp, t_myenv *my_env);
+//char			**cpy_envp(char **envp);
 
 /*
 ** prompt.c
@@ -158,4 +162,19 @@ char			**strsplit_multi(char const *s, char *separators);
 */
 
 int				expand_vars(char **args, char **env);
+
+/*
+** exec.c
+*/
+
+//void			my_exec(char *prog_path, char **args, char **envp);
+//int				search_prog(char *prog_path, char **args, char **envp);
+//void			get_right_cmd(char **args, t_myenv *my_env);
+void			get_cmd_args(char *line, t_myenv *my_env);
+
+/*
+** minishell.c
+*/
+
+void			replace_path_with_cwd(char ***env_paths);
 #endif

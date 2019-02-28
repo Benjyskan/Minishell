@@ -47,7 +47,8 @@ static void	shlvl_plus_one(char *shlvl, char **envp)
 	if (!(envp[line_index] = ft_memalloc(7 + shlvl_len)))
 		ERROR_MEM;
 	ft_strcpy(envp[line_index], "SHLVL=");
-	tmp = ft_itoa(nb);
+	if (!(tmp = ft_itoa(nb)))
+		ERROR_MEM;
 	ft_strlcat(envp[line_index], tmp, 7 + shlvl_len);
 	free(tmp);
 }

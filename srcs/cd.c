@@ -4,7 +4,33 @@
 ** set_env_pwds set PWD each time I cd
 */
 
-static void	set_env_pwd(char **env)
+static void	set_env_pwd(char ***env)
+{
+	char	path[PATH_MAX];
+	char	new_var[PATH_MAX];
+	char	*new;
+	int		i;
+
+	getcwd(path, PATH_MAX);
+	i = get_linenumber_from_env("PWD", *env);
+	if (i == -1)
+	{
+		ft_bzero(new_var, PATH_MAX);
+		ft_strcpy(new_var, "PWD=");
+		ft_strcpy(&new_var[4], path);
+		*env = add_env_var(new_var, *env);
+		return ;
+	}
+	printf("i: %d\n", i);
+	if (!(new = ft_strnew(4 + ft_strlen(path))))
+		ERROR_MEM;
+	ft_strcpy(new, "PWD=");
+	ft_strcpy(&new[4], path);
+	free((*env)[i]);
+	(*env)[i] = new;
+}
+
+/*static void	set_env_pwd(char **env)
 {
 	char	path[PATH_MAX];
 	char	*new;
@@ -12,13 +38,14 @@ static void	set_env_pwd(char **env)
 
 	getcwd(path, PATH_MAX);
 	i = get_linenumber_from_env("PWD", env);
+	printf("i: %d\n", i);
 	if (!(new = ft_strnew(4 + ft_strlen(path))))
 		ERROR_MEM;
 	ft_strcpy(new, "PWD=");
 	ft_strcpy(&new[4], path);
 	free(env[i]);
 	env[i] = new;
-}
+}*/
 
 void	cd_dash(char **args, t_myenv *my_env)
 {
@@ -35,7 +62,7 @@ void	cd_dash(char **args, t_myenv *my_env)
 	else
 		cd_invalid_option(args, my_env);
 	ft_strcpy(my_env->old_pwd, tmp);
-	set_env_pwd(my_env->envp);
+	set_env_pwd(&my_env->envp);
 }
 
 int		cd_arg(char **args, t_myenv *my_env)
@@ -53,7 +80,7 @@ int		cd_arg(char **args, t_myenv *my_env)
 		return (1);
 	}
 	ft_strcpy(my_env->old_pwd, tmp);
-	set_env_pwd(my_env->envp);
+	set_env_pwd(&my_env->envp);
 	return (0);
 }
 
@@ -78,7 +105,7 @@ void	cd_tilde(char **args, t_myenv *my_env)
 	if (chdir(home_save) == -1)
 		cd_not_found_str(home_save);
 	ft_strcpy(my_env->old_pwd, tmp);
-	set_env_pwd(my_env->envp);
+	set_env_pwd(&my_env->envp);
 	return ;
 }
 

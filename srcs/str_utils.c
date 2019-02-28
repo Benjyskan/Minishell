@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   str_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/28 12:03:43 by penzo             #+#    #+#             */
+/*   Updated: 2019/02/28 12:03:44 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int				is_str_digit(char *str)
@@ -50,4 +62,24 @@ void			reset_buf(char *buf, int *i)
 {
 	*i = 0;
 	ft_bzero(buf, BUF_SIZE);
+}
+
+/*
+** return ('=' offset) if search is equal to env_line name
+** return 0 otherwise
+*/
+
+int				strcmp_before_equal(char *search, char *env_line)
+{
+	int		i;
+
+	i = -1;
+	while (env_line[++i] != '=')
+	{
+		if (search[i] != env_line[i])
+			return (0);
+	}
+	if (!search[i])
+		return (i);
+	return (0);
 }
