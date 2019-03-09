@@ -57,7 +57,6 @@ int				my_cd(char **args, t_myenv *my_env);
 ** cd_errors.c
 */
 
-void			cd_not_found(char **args, char **env);
 void			cd_not_found_str(char *str);
 void			cd_permi_denied(char **args, char **env);
 void			cd_invalid_option(char **args, t_myenv *my_env);
