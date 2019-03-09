@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msg2.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/09 17:01:00 by penzo             #+#    #+#             */
+/*   Updated: 2019/03/09 17:17:46 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	too_many_args(char *prog_name)
@@ -14,4 +26,22 @@ void	too_few_args(char *prog_name)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(prog_name, 2);
 	ft_putendl_fd(": Too few arguments.", 2);
+}
+
+void	print_env_usage(char c)
+{
+	ft_putstr_fd("env: illegal option -- ", 2);
+	ft_putchar_fd(c, 2);
+	ft_putchar_fd('\n', 2);
+	ft_putendl_fd("usage: env [-i] [name=value ...] [utility [argument ...]]"
+			, 2);
+}
+
+void	no_such_file(char **args, char *arg, char **env)//??
+{
+	(void)env;
+	ft_putstr_fd(args[0], 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putendl_fd(": No such file or directory", 2);
 }

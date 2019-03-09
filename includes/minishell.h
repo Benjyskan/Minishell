@@ -33,7 +33,8 @@ int				check_built_in(char **args, t_myenv *my_env);
 ** built_in_env.c
 */
 
-void			my_env_function(char **args, char **env);
+void			my_env_function(char **args, t_myenv *my_env);
+//void			my_env_function(char **args, char **env);
 
 /*
 ** built_in_env_utils.c
@@ -84,6 +85,8 @@ void			var_must_begin_letter(char *prog_name);
 void			var_is_not_alphanum(char *prog_name);
 void			too_many_args(char *prog_name);
 void			too_few_args(char *prog_name);
+void			print_env_usage(char c);
+void			no_such_file(char **args, char *arg, char **env);//??
 
 /*
 ** exits.c
@@ -108,7 +111,7 @@ char			**add_env_var(char *new_var, char **envp);
 */
 
 void			init_env(char **envp, t_myenv *my_env);
-//char			**cpy_envp(char **envp);
+char			**cpy_envp(char **envp);
 
 /*
 ** prompt.c
@@ -167,6 +170,8 @@ int				expand_vars(char **args, char **env);
 //int				search_prog(char *prog_path, char **args, char **envp);
 //void			get_right_cmd(char **args, t_myenv *my_env);
 void			get_cmd_args(char *line, t_myenv *my_env);
+void			env_exec(char **args, t_myenv *my_env);//same func as get_cmd_args ??
+//void			env_exec(char **args, char **env);
 
 /*
 ** minishell.c

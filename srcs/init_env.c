@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 13:11:24 by penzo             #+#    #+#             */
-/*   Updated: 2019/02/28 17:51:30 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/09 14:19:35 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	**create_minienv(void)
 ** else: return NULL or should i malloc a mini_env ? yes, which malloc too
 */
 
-static char	**cpy_envp(char **envp)
+char		**cpy_envp(char **envp)
 {
 	int		tab_len;
 	char	**my_env;

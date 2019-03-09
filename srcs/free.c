@@ -4,7 +4,7 @@ void	free_nultab(char **tab)
 {
 	int		i;
 
-	if (!tab)//????
+	if (!tab /*|| !*tab*/)//????
 		return ;
 	i = -1;
 	while (tab[++i])
