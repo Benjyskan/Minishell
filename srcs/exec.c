@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 11:48:19 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 22:27:11 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/10 23:29:29 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,36 +148,3 @@ void		transform_cmdline(char *line, t_myenv *my_env)
 	}
 	get_right_prog(args, my_env);
 }
-
-/*void		env_exec(char **args, t_myenv *my_env)//useless ?
-{
-	char	prog_path[PATH_MAX];
-
-	ft_putstr("args[0]: ");
-	ft_putendl(args[0]);
-	//ft_put_nultab(my_env->envp);
-	ft_putendl("#####################################");
-	if (ft_is_c_in_str(args[0], '/'))
-	{
-		if (!access(args[0], F_OK))
-		{
-			if (!access(args[0], X_OK))
-				my_exec(args[0], args, my_env->envp);
-		}
-		else
-			cmd_not_found(args[0]);
-		//free_nultab(args);
-		return ;
-	}
-	//if (check_built_in(args, env))
-	if (check_built_in(args, my_env))
-	{
-		//free_nultab(args);
-		return ;
-	}
-	if (search_prog(prog_path, args, my_env->envp))
-		my_exec(prog_path, args, my_env->envp);
-	else
-		cmd_not_found(args[0]);
-	//free_nultab(args);
-}*/
