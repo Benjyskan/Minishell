@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:19:12 by penzo             #+#    #+#             */
-/*   Updated: 2019/02/28 19:19:13 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/10 13:39:19 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void		cd_tilde(char **args, t_myenv *my_env)
 {
 	char	*cwd;
 
+	(void)args;
 	if (!(cwd = getcwd(NULL, 0)))
 		ERROR_MEM;
 	if (!get_line_from_env("HOME", my_env->envp)

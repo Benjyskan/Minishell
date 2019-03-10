@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 20:19:22 by penzo             #+#    #+#             */
-/*   Updated: 2019/02/28 20:20:27 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/10 14:13:21 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,23 +92,24 @@ static char	*strjoin_equal(char *s1, char *s2)
 ** syntax: setenv TOTO TATA
 */
 
-void		my_setenv(char **args, char ***env)
+//void		my_setenv(char **args, char ***env)
+void		my_setenv(char **args, t_myenv *my_env)
 {
 	char	*env_var;
 
 	if (!args[1])
 	{
-		my_env_function(args, *env);
+		my_env_function(args, my_env);
 		return ;
 	}
 	if (!check_setenv_args(args))
 		return ;
-	if ((env_var = get_line_from_env(args[1], *env)))
-		reset_env_var(args, *env);
+	if ((env_var = get_line_from_env(args[1], my_env->envp)))
+		reset_env_var(args, my_env->envp);
 	else
 	{
 		env_var = strjoin_equal(args[1], args[2]);
-		*env = add_env_var(env_var, *env);
+		my_env->envp = add_env_var(env_var, my_env->envp);
 		ft_memdel((void*)&env_var);
 	}
 }

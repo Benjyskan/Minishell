@@ -6,11 +6,15 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 11:49:55 by penzo             #+#    #+#             */
-/*   Updated: 2019/02/28 19:16:37 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/10 16:57:45 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+** replace (env)PATH with current directory
+*/
 
 void		replace_path_with_cwd(char ***env_paths)
 {
@@ -54,7 +58,7 @@ static void	loop(t_myenv *my_env)
 		{
 			buf[i - 1] = 0;
 			if (*buf)
-				get_cmd_args(buf, my_env);
+				transform_cmdline(buf, my_env);
 			reset_buf(buf, &i);
 			print_prompt();
 		}

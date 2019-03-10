@@ -6,21 +6,15 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:22:36 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/09 23:09:51 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/10 20:04:13 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_env(char **args, char **env)
-{
-	int		i;
-
-	(void)args;
-	i = -1;
-	while (env[++i])
-		ft_putendl(env[i]);
-}
+/*
+** return a malloced empty env
+*/
 
 static char	**env_i_options(char **env)
 {
@@ -32,24 +26,8 @@ static char	**env_i_options(char **env)
 	return (env);
 }
 
-static int	is_valid_options(char *arg)
-{
-	int		i;
-
-	i = 0;
-	while (arg[++i])
-	{
-		if (arg[i] != 'i')
-		{
-			print_env_usage(arg[i]);
-			return (0);
-		}
-	}
-	return (1);
-}
-
 //should check -i; if check -u: ignore next args
-static void	check_env_options(char **args, char **env)
+/*static void	check_env_options(char **args, char **env)
 {
 	int		i;
 
@@ -58,44 +36,7 @@ static void	check_env_options(char **args, char **env)
 	{
 		
 	}
-}
-
-static char	**dup_env(char **env)
-{
-	int		tab_len;
-	char	**new_env;
-	int		i;
-
-	tab_len = get_ntab_len(env);
-	if (!(new_env = (char**)malloc(sizeof(char**) * (tab_len + 1))))
-		ERROR_MEM;
-	new_env[tab_len] = 0;
-	i = -1;
-	while(++i < tab_len)
-	{
-		if (!(new_env[i] = ft_strdup(env[i])))
-			ERROR_MEM;
-	}
-	return (new_env);
-}
-
-/*
-** is_no_cmd_left start on args[1]
-** return 1 if it remain cmds in args
-*/
-
-static int	is_no_cmd_left(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[++i])
-	{
-		if (args[i][0] != '-' && !ft_strchr(args[i], '='))
-				return (0);
-	}
-	return (1);
-}
+}*/
 
 /*static void	env_args(char **args, char **env)
 {
@@ -137,10 +78,8 @@ static void	env_args(char **args, t_myenv *my_env)
 	//char	**tmp_env;
 	t_myenv tmp_my_env;
 
-	ft_putendl("1111");
 	tmp_my_env.envp = dup_env(my_env->envp);
-	ft_putendl("2222");
-	i = -1;//ici ??
+	i = 0;//ici ??
 	while (args[++i])
 	{
 		if (!ft_strncmp(args[i], "-i", 2))
@@ -155,7 +94,7 @@ static void	env_args(char **args, t_myenv *my_env)
 		else if (is_no_cmd_left(args))
 		{
 			printf("i=%d\n", i);
-			env_exec(args + i, &tmp_my_env.envp);
+			env_exec(args + i, &tmp_my_env);
 			//my_env_function(args + i, tmp_my_env.envp);
 			return ;
 		}
@@ -172,6 +111,8 @@ static void	env_args(char **args, t_myenv *my_env)
 static int	first_env_check(char **args, char **env)
 {
 	int		i;
+
+	(void)env;
 	i = -1;
 	while (args[++i])
 	{
@@ -183,12 +124,152 @@ static int	first_env_check(char **args, char **env)
 	return (1);
 }
 
+/*
+** return an args of size size
+*/
+
+static char	**get_short_cmd(char **args, int size, t_myenv *tmp_env)
+{
+	char	**short_cmd;
+	int		i;
+
+	(void)tmp_env;
+	if (!(short_cmd = (char**)malloc(sizeof(char**) * (size + 1))))
+		ERROR_MEM;
+	i = -1;
+	while (++i < size)
+	{
+		if (!(short_cmd[i] = ft_strdup(args[i])))
+			ERROR_MEM;
+	}
+	short_cmd[i] = 0;
+	return (short_cmd);
+}
+
+static char	**get_cur_envcmd(char **args, t_myenv *tmp_env)
+{
+	int		i;
+	char	**short_cmd;
+
+	i = 0;
+	while (args[++i])
+	{
+		if (args[i][0] != '-' && !ft_strchr(args[i], '='))
+			break ;
+	}
+	if (!(short_cmd = get_short_cmd(args, i, tmp_env)))
+		ERROR_MEM;
+	return (short_cmd);
+}
+
+//move to libft
+int		ft_strcmp_until_c(char *s1, char *s2, char c)
+{
+	int		i;
+
+	if (!s1 && !s2)
+		return (0);
+	if (!s1 || !s2)
+		return (-1);
+	i = -1;
+	while (s1[++i] != c)
+	{
+		if (s1[i] != s2[i])
+			return (1);
+	}
+	if (s2[i] == c)
+		return (0);
+	return (1);
+}
+
+/*
+** search format: *=*
+** return the index from env
+*/
+
+static int	get_envline_number(char *search, char **env)
+{
+	int		i;
+
+	i = -1;
+	while (env[++i])
+	{
+		if (!ft_strcmp_until_c(search, env[i], '='))
+			return (i);
+	}
+	return (-1);
+}
+
+static void	exec_env(char **short_cmd, t_myenv *tmp_env, int mod)
+{
+	int		i;
+	int		index;
+
+	i = 0;
+	while (short_cmd[++i])
+	{
+		if (short_cmd[i][0] == '-' && !mod)
+		{
+			if (is_valid_options(short_cmd[i]))
+				tmp_env->envp = env_i_options(tmp_env->envp);
+		}
+		else if (ft_strchr(short_cmd[i], '='))
+		{
+			//ft_putstr("*********");
+			//ft_putnbr(get_linenumber_from_env(short_cmd[i], tmp_env->envp));
+			//ft_putendl(ft_strchr(short_cmd[i], '='));
+			if ((index = get_envline_number(short_cmd[i], tmp_env->envp)) != -1)
+				tmp_env->envp = replace_env_var(short_cmd[i], index, tmp_env->envp);
+			else
+				tmp_env->envp = add_env_var(short_cmd[i], tmp_env->envp);
+		}
+	}
+	//ft_putendl("++++");
+	//ft_put_nultab(tmp_env->envp);
+	//ft_putendl("++++");
+}
+
 void		my_env_function(char **args, t_myenv *my_env)
+{
+	t_myenv tmp_env;
+	char	**cur_envcmd;
+	int		i;
+	//save full args ?
+
+	if (!(tmp_env.envp = dup_env(my_env->envp)))
+		ERROR_MEM;
+	i = 0;
+	while (!is_last_cmd(args + i))
+	{
+		cur_envcmd = get_cur_envcmd(args + i, &tmp_env);
+		i += get_ntab_len(cur_envcmd);
+		//ft_putnbr(i);
+		//ft_putendl("---");
+		//ft_put_nultab(cur_envcmd);
+		exec_env(cur_envcmd, &tmp_env, 0);
+	}
+	//exec last cmd(env or other)
+	//ft_putendl("last_cmd:");
+	//ft_put_nultab(cur_envcmd = get_cur_envcmd(args + i, &tmp_env));
+	cur_envcmd = get_cur_envcmd(args + i, &tmp_env);
+	if (ft_strcmp(cur_envcmd[0], "env") == 0)
+	{
+		exec_env(cur_envcmd, &tmp_env, 0);
+		print_env(NULL, tmp_env.envp);
+	}
+	else
+	{
+		exec_env(cur_envcmd, &tmp_env, 1);
+		get_right_prog(cur_envcmd, &tmp_env);
+	}
+}
+
+/*void		my_env_function(char **args, t_myenv *my_env)
 {
 	if (!args[1])//|| is_no_cmd_left(args)
 	{
 		ft_putendl("################No args[1]");
-			print_env(args, my_env->envp);
+		print_env(args, my_env->envp);
 	}
 	else if (!is_no_cmd_left(args))
 	{
@@ -200,9 +281,9 @@ void		my_env_function(char **args, t_myenv *my_env)
 	else
 	{
 		ft_putendl("*&^*&^*&^*&^*&^*&^*&^*&^");
-		env_args(args + 1, my_env);
+		env_args(args, my_env);
 	}
-}
+}*/
 
 /*void		my_env_function(char **args, char **env)
 {

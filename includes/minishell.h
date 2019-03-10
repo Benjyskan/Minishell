@@ -41,6 +41,11 @@ void			my_env_function(char **args, t_myenv *my_env);
 */
 
 int				do_envvar_exist(char *what, char **envp);
+void			print_env(char **args, char **env);
+char			**dup_env(char **env);
+int				is_no_cmd_left(char **args);
+int				is_valid_options(char *arg);
+int				is_last_cmd(char **args);
 
 /*
 ** built_in_echo.c
@@ -105,6 +110,7 @@ int				get_linenumber_from_env(char *search, char **env);
 char			**get_all_env_path(char *path);
 //void			add_env_var(char *new_var, char **envp);
 char			**add_env_var(char *new_var, char **envp);
+char			**replace_env_var(char *new_line, int index, char **env);
 
 /*
 ** init_env.c
@@ -135,7 +141,8 @@ void			set_shlvl(char ***envp);
 ** built_in_setenv.c
 */
 
-void			my_setenv(char **args, char ***env);
+//void			my_setenv(char **args, char ***env);
+void			my_setenv(char **args, t_myenv *my_env);
 
 /*
 ** built_in_unsetenv.c
@@ -168,9 +175,9 @@ int				expand_vars(char **args, char **env);
 
 //void			my_exec(char *prog_path, char **args, char **envp);
 //int				search_prog(char *prog_path, char **args, char **envp);
-//void			get_right_cmd(char **args, t_myenv *my_env);
-void			get_cmd_args(char *line, t_myenv *my_env);
+void			transform_cmdline(char *line, t_myenv *my_env);
 void			env_exec(char **args, t_myenv *my_env);//same func as get_cmd_args ??
+void			get_right_prog(char **args, t_myenv *my_env);
 //void			env_exec(char **args, char **env);
 
 /*

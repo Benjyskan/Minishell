@@ -6,11 +6,17 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 13:11:24 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/09 14:19:35 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/10 16:53:51 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+** malloc a minienv
+** set SHLVL=1 and PWD
+** and return it
+*/
 
 static char	**create_minienv(void)
 {
@@ -36,8 +42,8 @@ static char	**create_minienv(void)
 }
 
 /*
-** if envp: MALLOC
-** else: return NULL or should i malloc a mini_env ? yes, which malloc too
+** malloc a cpy of the given env
+** and set the SHLVL
 */
 
 char		**cpy_envp(char **envp)
@@ -62,13 +68,16 @@ char		**cpy_envp(char **envp)
 
 /*
 ** set my_env via address
+** set old_pwd to NULL
+** if env: cpy env
+** else create_minienv
 */
 
 void		init_env(char **envp, t_myenv *my_env)
 {
 	//ft_bzero(my_env->old_pwd, PATH_MAX);
 	my_env->old_pwd = NULL;
-	//TODO: modify old_pwd to char*, and free it when needed
+	//TODO: modify old_pwd to char*, and free it when needed. DONE(i think)
 	if (*envp)
 	{
 		my_env->envp = cpy_envp(envp);
@@ -76,5 +85,5 @@ void		init_env(char **envp, t_myenv *my_env)
 	}
 	else
 		my_env->envp = create_minienv();
-	return ;
+	//return ;
 }

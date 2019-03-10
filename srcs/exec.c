@@ -6,17 +6,24 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 11:48:19 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/09 22:20:01 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/10 19:50:54 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** cycle through the PATH list
+** return 1  if i can execute the result
+** return -1 if i can't execute the result
+** return 0  if prog_path isn't found
+*/
+
 static int	cycle_through_prog_paths(char *prog_path, char **env_paths,
 			char *prog_name)
 {
 	int		i;
-	char	path[PATH_MAX];
+	char	path[PATH_MAX];//TODO: tej PATH_MAX
 
 	i = -1;
 	while (env_paths[++i])
@@ -41,6 +48,14 @@ static int	cycle_through_prog_paths(char *prog_path, char **env_paths,
 	return (0);
 }
 
+/*
+** check if (env)PATH exist
+** if not: look in current directory
+** else cycle through the PATH list
+** return 1 if the prog is found
+** return 0 otherwise
+*/
+
 static int	search_prog(char *prog_path, char **args, char **envp)
 {
 	char	**env_paths;
@@ -53,6 +68,10 @@ static int	search_prog(char *prog_path, char **args, char **envp)
 	free_nultab(env_paths);
 	return (0);
 }
+
+/*
+** fork and execve the prog given by prog_path
+*/
 
 static void	my_exec(char *prog_path, char **args, char **envp)
 {
@@ -70,9 +89,16 @@ static void	my_exec(char *prog_path, char **args, char **envp)
 		ERROR_FORK;
 }
 
-static void	get_right_cmd(char **args, t_myenv *my_env)
+/*
+** check if args[0]:
+** 1. is absolute path
+** 2. is a builtin
+** 3. try to exec it
+*/
+
+void		get_right_prog(char **args, t_myenv *my_env)
 {
-	char	prog_path[PATH_MAX];
+	char	prog_path[PATH_MAX];//TODO: virer PATH_MAX
 
 	if (ft_is_c_in_str(args[0], '/'))
 	{
@@ -98,13 +124,19 @@ static void	get_right_cmd(char **args, t_myenv *my_env)
 	free_nultab(args);
 }
 
-void		get_cmd_args(char *line, t_myenv *my_env)
+/*
+** split the command line, expand variables,
+** send it to get_right_prog()
+** and return to the loop
+*/
+
+void		transform_cmdline(char *line, t_myenv *my_env)
 {
 	char	**args;
 
 	if (!(args = strsplit_multi(line, " \t")))
 		ERROR_MEM;
-	if (!*args)
+	if (!*args)//why ? to check if the split failed ?
 	{
 		free(args);
 		return ;
@@ -114,7 +146,7 @@ void		get_cmd_args(char *line, t_myenv *my_env)
 		free_nultab(args);
 		return ;
 	}
-	get_right_cmd(args, my_env);
+	get_right_prog(args, my_env);
 }
 
 void		env_exec(char **args, t_myenv *my_env)//useless ?
