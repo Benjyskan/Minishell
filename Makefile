@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 17:50:27 by penzo             #+#    #+#              #
-#    Updated: 2019/03/10 13:48:30 by penzo            ###   ########.fr        #
+#    Updated: 2019/03/10 22:49:52 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,8 @@ fsa: $(OBJS) libft/libft.a Makefile
 
 val:
 	$(CC) -g $(WFLAGS) $(INCL) $(LIBS) -o $(NAME) $(SRCS)
+	#valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all \
-		./$(NAME)
+		--show-reachable=no ./$(NAME)
 
 .PHONY: all clean fclean re

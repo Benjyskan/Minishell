@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 11:48:19 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 19:50:54 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/10 22:27:11 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void		transform_cmdline(char *line, t_myenv *my_env)
 	get_right_prog(args, my_env);
 }
 
-void		env_exec(char **args, t_myenv *my_env)//useless ?
+/*void		env_exec(char **args, t_myenv *my_env)//useless ?
 {
 	char	prog_path[PATH_MAX];
 
@@ -180,4 +180,4 @@ void		env_exec(char **args, t_myenv *my_env)//useless ?
 	else
 		cmd_not_found(args[0]);
 	//free_nultab(args);
-}
+}*/

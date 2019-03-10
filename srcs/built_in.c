@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:20:05 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 13:59:07 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/10 22:33:42 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ static void	my_exit(char **args, t_myenv *my_env)
 		ac++;
 	if (ac == 1)
 	{
-		ft_putendl_fd("exit caca", 2);
+		ft_putendl_fd("exit", 2);
 		free_nultab(args);
 		free_nultab(my_env->envp);
-		printf("address: %p\n", my_env->old_pwd);
 		ft_memdel((void*)&my_env->old_pwd);
 		exit(0);
 	}
@@ -55,10 +54,8 @@ int			check_built_in(char **args, t_myenv *my_env)
 		my_cd(args, my_env);
 	else if ((ft_strcmp(args[0], "env")) == 0)
 		my_env_function(args, my_env);
-		//my_env_function(args, my_env->envp);
 	else if ((ft_strcmp(args[0], "setenv")) == 0)
 		my_setenv(args, my_env);
-		//my_setenv(args, &my_env->envp);
 	else if ((ft_strcmp(args[0], "unsetenv")) == 0)
 		my_unsetenv(args, &my_env->envp);
 	else
