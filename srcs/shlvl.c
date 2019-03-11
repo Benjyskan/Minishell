@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shlvl.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/11 18:27:22 by penzo             #+#    #+#             */
+/*   Updated: 2019/03/11 19:38:32 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	ft_getnblen(int n)
@@ -25,7 +37,7 @@ static void	set_shlvl_to_one(char **envp)
 	int		line_index;
 
 	line_index = get_linenumber_from_env("SHLVL", envp);
-	free(envp[line_index]);
+	ft_memdel((void*)&envp[line_index]);
 	if (!(envp[line_index] = ft_memalloc(8)))
 		ERROR_MEM;
 	ft_strcpy(envp[line_index], "SHLVL=1");
@@ -43,14 +55,14 @@ static void	shlvl_plus_one(char *shlvl, char **envp)
 	nb = (nb < 0) ? 0 : nb;
 	line_index = get_linenumber_from_env("SHLVL", envp);
 	shlvl_len = ft_getnblen(nb);
-	free(envp[line_index]);
+	ft_memdel((void*)&envp[line_index]);
 	if (!(envp[line_index] = ft_memalloc(7 + shlvl_len)))
 		ERROR_MEM;
 	ft_strcpy(envp[line_index], "SHLVL=");
 	if (!(tmp = ft_itoa(nb)))
 		ERROR_MEM;
 	ft_strlcat(envp[line_index], tmp, 7 + shlvl_len);
-	free(tmp);
+	ft_memdel((void*)&tmp);
 }
 
 void		set_shlvl(char ***envp)

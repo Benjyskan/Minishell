@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:19:12 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 13:39:19 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 19:51:46 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ static void	set_env_pwd(char ***env)
 		*env = add_env_var(new, *env);
 	else
 	{
-		free((*env)[i]);
+		ft_memdel((void*)&(*env)[i]);
 		(*env)[i] = new;
 	}
-	free(cwd);
+	ft_memdel((void*)&cwd);
 }
 
 void		cd_dash(char **args, t_myenv *my_env)
@@ -49,7 +49,7 @@ void		cd_dash(char **args, t_myenv *my_env)
 	if (!my_env->old_pwd)
 	{
 		cd_not_found_str(my_env->old_pwd);
-		free(cwd);
+		ft_memdel((void*)&cwd);
 		return ;
 	}
 	if (ft_strcmp(args[1], "-") == 0)
@@ -61,10 +61,10 @@ void		cd_dash(char **args, t_myenv *my_env)
 	}
 	else
 		cd_invalid_option(args, my_env);
-	free(my_env->old_pwd);
+	ft_memdel((void*)&my_env->old_pwd);
 	my_env->old_pwd = ft_strdup(cwd);
 	set_env_pwd(&my_env->envp);
-	free(cwd);
+	ft_memdel((void*)&cwd);
 }
 
 int			cd_arg(char **args, t_myenv *my_env)
@@ -79,13 +79,13 @@ int			cd_arg(char **args, t_myenv *my_env)
 			cd_permi_denied(args, my_env->envp);
 		else
 			cd_not_found_str(args[1]);
-		free(cwd);
+		ft_memdel((void*)&cwd);
 		return (1);
 	}
-	free(my_env->old_pwd);
+	ft_memdel((void*)&my_env->old_pwd);
 	my_env->old_pwd = ft_strdup(cwd);
 	set_env_pwd(&my_env->envp);
-	free(cwd);
+	ft_memdel((void*)&cwd);
 	return (0);
 }
 
@@ -100,15 +100,15 @@ void		cd_tilde(char **args, t_myenv *my_env)
 			|| *get_line_from_env("HOME", my_env->envp) == 0)
 	{
 		ft_putendl_fd("No $home variable set.", 2);
-		free(cwd);
+		ft_memdel((void*)&cwd);
 		return ;
 	}
 	if (chdir(get_line_from_env("HOME", my_env->envp)) == -1)
 		cd_not_found_str(get_line_from_env("HOME", my_env->envp));
-	free(my_env->old_pwd);
+	ft_memdel((void*)&my_env->old_pwd);
 	my_env->old_pwd = ft_strdup(cwd);
 	set_env_pwd(&my_env->envp);
-	free(cwd);
+	ft_memdel((void*)&cwd);
 	return ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 13:11:24 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 16:53:51 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 19:34:26 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	**create_minienv(void)
 	ft_strcpy(envp[1], "PWD=");
 	ft_strcpy(&envp[1][4], cwd);
 	envp[init_lines - 1] = NULL;
-	free(cwd);
+	ft_memdel((void*)&cwd);
 	return (envp);
 }
 
@@ -75,15 +75,9 @@ char		**cpy_envp(char **envp)
 
 void		init_env(char **envp, t_myenv *my_env)
 {
-	//ft_bzero(my_env->old_pwd, PATH_MAX);
 	my_env->old_pwd = NULL;
-	//TODO: modify old_pwd to char*, and free it when needed. DONE(i think)
 	if (*envp)
-	{
 		my_env->envp = cpy_envp(envp);
-		my_env->old_pwd = NULL;
-	}
 	else
 		my_env->envp = create_minienv();
-	//return ;
 }

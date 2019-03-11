@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 20:23:32 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 19:12:41 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 19:53:04 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	**get_all_env_path(char *path)
 
 char	**replace_env_var(char *new_line, int index, char **env)
 {
-	free(env[index]);
+	ft_memdel((void*)&env[index]);
 	if (!(env[index] = ft_strdup(new_line)))
 		ERROR_MEM;
 	return (env);

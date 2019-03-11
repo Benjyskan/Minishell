@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   strsplit_multi.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/11 18:51:15 by penzo             #+#    #+#             */
+/*   Updated: 2019/03/11 19:53:56 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	is_separators(char c, char *separators)
@@ -61,7 +73,7 @@ static int	fill_tab(char **tab, char *s, char *separators)
 			in_word = 1;
 			if (!(tab[j] = ft_strndup(&s[i], get_wordlen(&s[i], separators))))
 			{
-				free(tab);
+				ft_memdel((void*)&tab);
 				return (0);
 			}
 			j++;

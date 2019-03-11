@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 12:03:43 by penzo             #+#    #+#             */
-/*   Updated: 2019/02/28 12:03:44 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 19:28:06 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,6 @@ void			append_path_nomalloc(char *env_path,
 	j = -1;
 	while (prog_name[++j])
 		result[++i] = prog_name[j];
-}
-
-void			reset_buf(char *buf, int *i)
-{
-	*i = 0;
-	ft_bzero(buf, BUF_SIZE);
 }
 
 /*

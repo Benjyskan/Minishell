@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 11:48:19 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/11 17:29:59 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 18:04:01 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,11 @@ static int	cycle_through_prog_paths(char *prog_path, char **env_paths,
 	i = -1;
 	while (env_paths[++i])
 	{
-		//
 		if (ft_strlen(env_paths[i]) + ft_strlen(prog_name) >= PATH_MAX)
 		{
-			ft_putendl("YYYYYYYYYYYYYY");
 			free_nultab(env_paths);
 			return (-2);
 		}
-		//
 		append_path_nomalloc(env_paths[i], prog_name, path);
 		if (!access(path, F_OK))
 		{
@@ -149,30 +146,4 @@ void		get_right_prog(char **args, t_myenv *my_env)
 	else
 		cmd_not_found(args[0]);
 	free_nultab(args);
-}
-
-/*
-** split the command line, expand variables,
-** send it to get_right_prog()
-** and return to the loop
-*/
-
-void		transform_cmdline(char *line, t_myenv *my_env)
-{
-	char	**args;
-
-	if (!(args = strsplit_multi(line, " \t")))
-		ERROR_MEM;
-	if (!*args)//why ? to check if the split failed ?
-	{
-		ft_putendl("XXXXXX check me plz XXXXXX");
-		free(args);
-		return ;
-	}
-	if (!(expand_vars(args, my_env->envp)))
-	{
-		free_nultab(args);
-		return ;
-	}
-	get_right_prog(args, my_env);
 }

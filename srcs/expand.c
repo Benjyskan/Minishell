@@ -11,7 +11,7 @@ static char	*expand_tilde(char *arg, char **env)
 	if (!get_line_from_env("HOME", env) || !(*get_line_from_env("HOME", env)))
 	{
 		ft_putendl_fd("No $home variable set.", 2);
-		free(arg);
+		ft_memdel((void*)&arg);
 		return (NULL);
 	}
 	home_str = get_line_from_env("HOME", env);
@@ -20,7 +20,7 @@ static char	*expand_tilde(char *arg, char **env)
 		ERROR_MEM;
 	ft_strcpy(new, home_str);
 	ft_strcpy(&new[tilde_len], &arg[1]);
-	free(arg);
+	ft_memdel((void*)&arg);
 	return (new);
 }
 
@@ -39,7 +39,6 @@ static char	*get_var_name(char *needle)
 	return (var_name);
 }
 
-//return total_len ? i do
 static int	check_dollars(char *arg, char **env, int *ret)
 {
 	int		i;
@@ -52,18 +51,17 @@ static int	check_dollars(char *arg, char **env, int *ret)
 	{
 		if (arg[i] == '$')
 		{
-			tmp = get_var_name(&arg[i]);//protect ?
-			//ft_putendl(tmp);
+			tmp = get_var_name(&arg[i]);
 			if (!(get_line_from_env(tmp, env)))
 			{
 				undefined_variable(tmp);
-				free(tmp);//check
-				free(arg);//test
-				return (0);//output var does't exist
+				ft_memdel((void*)&tmp);
+				ft_memdel((void*)&arg);
+				return (0);
 			}
 			malloc_len += ft_strlen(get_line_from_env(tmp, env));
 			malloc_len -= ft_strlen(tmp) + 1;
-			free(tmp);
+			ft_memdel((void*)&tmp);
 		}
 	}
 	*ret = malloc_len;
@@ -85,7 +83,7 @@ static int	expand_dollar(char *old, char *new, char **env)
 		ERROR_MEM;
 	var = get_line_from_env(var_name, env);
 	var_name_len = ft_strlen(var_name);
-	free(var_name);
+	ft_memdel((void*)&var_name);
 	i = -1;
 	while (var[++i])
 		new[i] = var[i];
@@ -118,7 +116,7 @@ static char	*expand_dollars(char *arg, char **env)
 		else
 			new[j++] = arg[i];
 	}
-	free(arg);
+	ft_memdel((void*)&arg);
 	return (new);
 }
 

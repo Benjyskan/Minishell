@@ -8,7 +8,7 @@
 # include <limits.h>
 # include <sys/syslimits.h>
 # include "libft.h"
-# define BUF_SIZE 20000 //TODO
+# define BUF_SIZE 124 //TODO
 # define SHELL_NAME "my_sh"
 # define ERROR_MEM exit(1) //naze
 # define ERROR_READ exit(1) //naze
@@ -72,7 +72,7 @@ void			cd_invalid_option(char **args, t_myenv *my_env);
 */
 
 int				is_str_digit(char *str);
-void			reset_buf(char *buf, int *i);
+//void			reset_buf(char *buf, int *i);
 void			append_path_nomalloc(char *env_path, char *prog_name,
 		char *result);
 void			strjoin_equal_nomalloc(char *s1, char *s2, char *result);
@@ -157,6 +157,7 @@ void			my_unsetenv(char **args, char ***env);
 */
 
 int				expand_vars(char **args, char **env);
+void			transform_cmdline(char *line, t_myenv *my_env);
 
 /*
 ** strsplit_multi.c
@@ -176,7 +177,6 @@ int				expand_vars(char **args, char **env);
 
 //void			my_exec(char *prog_path, char **args, char **envp);
 //int				search_prog(char *prog_path, char **args, char **envp);
-void			transform_cmdline(char *line, t_myenv *my_env);
 void			env_exec(char **args, t_myenv *my_env);//same func as get_cmd_args ??
 void			get_right_prog(char **args, t_myenv *my_env);
 //void			env_exec(char **args, char **env);

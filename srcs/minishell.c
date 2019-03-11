@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 11:49:55 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 16:57:45 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 18:47:33 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ static void	exit_loop(char *buf, t_myenv *my_env)
 	free_nultab(my_env->envp);
 	ft_memdel((void*)&my_env->old_pwd);
 	ft_putendl_fd("exit", 2);
+}
+
+static void	reset_buf(char *buf, int *i)
+{
+	*i = 0;
+	ft_bzero(buf, BUF_SIZE);
 }
 
 static void	loop(t_myenv *my_env)
