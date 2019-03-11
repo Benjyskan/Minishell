@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:22:36 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 23:29:26 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 15:26:45 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	**env_i_options(char **env)
 	return (env);
 }
 
-static int	first_env_check(char **args, char **env)
+/*static int	first_env_check(char **args, char **env)
 {
 	int		i;
 
@@ -40,7 +40,7 @@ static int	first_env_check(char **args, char **env)
 			return (0);
 	}
 	return (1);
-}
+}*/
 
 /*
 ** return an args of size size
@@ -133,6 +133,7 @@ static int	exec_env(char **short_cmd, t_myenv *tmp_env, int mod)
 			else
 			{
 				free_nultab(short_cmd);
+				free_nultab(tmp_env->envp);//test11 is good
 				return (0);
 			}
 		}
@@ -144,7 +145,7 @@ static int	exec_env(char **short_cmd, t_myenv *tmp_env, int mod)
 				tmp_env->envp = add_env_var(short_cmd[i], tmp_env->envp);
 		}
 	}
-	//free_nultab(short_cmd);//nul ?
+	//free_nultab(short_cmd);//nul ? oui
 	return (1);
 }
 

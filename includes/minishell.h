@@ -8,7 +8,7 @@
 # include <limits.h>
 # include <sys/syslimits.h>
 # include "libft.h"
-# define BUF_SIZE 124 //TODO
+# define BUF_SIZE 20000 //TODO
 # define SHELL_NAME "my_sh"
 # define ERROR_MEM exit(1) //naze
 # define ERROR_READ exit(1) //naze
