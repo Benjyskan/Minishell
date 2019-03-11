@@ -92,6 +92,7 @@ void			too_many_args(char *prog_name);
 void			too_few_args(char *prog_name);
 void			print_env_usage(char c);
 void			no_such_file(char **args, char *arg, char **env);//??
+void			file_name_too_long(char *file_name);
 
 /*
 ** exits.c
