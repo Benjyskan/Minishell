@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 11:19:00 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/11 19:41:18 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 19:59:14 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		count_args(char **args)
 ** the "if (!*args)" is for blank line
 */
 
-void		transform_cmdline(char *line, t_myenv *my_env)
+void	transform_cmdline(char *line, t_myenv *my_env)
 {
 	char	**args;
 

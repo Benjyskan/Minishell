@@ -8,7 +8,7 @@
 # include <limits.h>
 # include <sys/syslimits.h>
 # include "libft.h"
-# define BUF_SIZE 124 //TODO
+# define BUF_SIZE 128 //TODO
 # define SHELL_NAME "my_sh"
 # define ERROR_MEM exit(1) //naze
 # define ERROR_READ exit(1) //naze
@@ -170,6 +170,9 @@ char			**strsplit_multi(char const *s, char *separators);
 */
 
 int				expand_vars(char **args, char **env);
+char			*get_var_name(char *needle);
+int				check_dollars_undefined(char *arg, char *tmp);
+void			set_i_j(int *i, int i_val, int *j, int j_val);
 
 /*
 ** exec.c

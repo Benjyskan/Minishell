@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/11 19:59:40 by penzo             #+#    #+#             */
+/*   Updated: 2019/03/11 20:52:06 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*expand_tilde(char *arg, char **env)
@@ -24,21 +36,6 @@ static char	*expand_tilde(char *arg, char **env)
 	return (new);
 }
 
-static char	*get_var_name(char *needle)
-{
-	int		i;
-	char	*var_name;
-
-	i = 1;
-	while (ft_isalnum(needle[i]))
-		i++;
-	//if (i == 1)syntax error ?
-	if (!(var_name = ft_strnew(i)))
-		ERROR_MEM;
-	ft_strncpy(var_name, &needle[1], i - 1);
-	return (var_name);
-}
-
 static int	check_dollars(char *arg, char **env, int *ret)
 {
 	int		i;
@@ -51,14 +48,13 @@ static int	check_dollars(char *arg, char **env, int *ret)
 	{
 		if (arg[i] == '$')
 		{
-			tmp = get_var_name(&arg[i]);
-			if (!(get_line_from_env(tmp, env)))
+			if (!(tmp = get_var_name(&arg[i])))
 			{
-				undefined_variable(tmp);
-				ft_memdel((void*)&tmp);
 				ft_memdel((void*)&arg);
 				return (0);
 			}
+			if (!(get_line_from_env(tmp, env)))
+				return (check_dollars_undefined(arg, tmp));
 			malloc_len += ft_strlen(get_line_from_env(tmp, env));
 			malloc_len -= ft_strlen(tmp) + 1;
 			ft_memdel((void*)&tmp);
@@ -102,8 +98,7 @@ static char	*expand_dollars(char *arg, char **env)
 	an_int += ft_strlen(arg);
 	if (!(new = ft_strnew(an_int)))
 		ERROR_MEM;
-	i = -1;
-	j = 0;
+	set_i_j(&i, -1, &j, 0);
 	while (arg[++i])
 	{
 		if (arg[i] == '$')
@@ -120,7 +115,7 @@ static char	*expand_dollars(char *arg, char **env)
 	return (new);
 }
 
-int		expand_vars(char **args, char **env)
+int			expand_vars(char **args, char **env)
 {
 	int		j;
 

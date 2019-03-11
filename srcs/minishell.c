@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 11:49:55 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/11 18:47:33 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 22:36:54 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,41 @@ static void	exit_loop(char *buf, t_myenv *my_env)
 static void	reset_buf(char *buf, int *i)
 {
 	*i = 0;
-	ft_bzero(buf, BUF_SIZE);
+	ft_bzero(buf, BUF_SIZE);//a chier
+}
+
+/*void	fill_buf(char *buf, int *i, char c)
+{
+	char	*tmp;
+
+	if (*i == (BUF_SIZE))
+	{
+		//realloc x2
+		if (!(tmp = ft_strnew(BUF_SIZE * 2)))
+			ERROR_MEM;
+		ft_strcpy(buf, tmp);
+		//ft_memdel((void*)&buf);
+		buf = tmp;
+		ft_putendl("OVERFLOW");
+	}
+	buf[(*i)++] = c;
+}*/
+void	fill_buf(char **buf, int *i, char c, int *buf_len)//, int size ??
+{
+	char	*tmp;
+
+	if (*i == (*buf_len))//what if multiple realloc
+	{
+		//realloc x2
+		if (!(tmp = ft_strnew(*buf_len * 2)))
+			ERROR_MEM;
+		*buf_len *= 2;
+		ft_strcpy(tmp, *buf);
+		ft_memdel((void*)&(*buf));
+		*buf = tmp;
+		ft_putendl("OVERFLOW");
+	}
+	(*buf)[(*i)++] = c;
 }
 
 static void	loop(t_myenv *my_env)
@@ -49,6 +83,7 @@ static void	loop(t_myenv *my_env)
 	char	c;
 	int		i;
 	int		ret;
+	static int	buf_len = BUF_SIZE;
 
 	if (!(buf = ft_strnew(BUF_SIZE)))
 		ERROR_MEM;
@@ -59,13 +94,13 @@ static void	loop(t_myenv *my_env)
 	{
 		if (ret == -1)
 			ERROR_READ;
-		buf[i++] = c;
+		fill_buf(&buf, &i, c, &buf_len);
 		if (c == 10)
 		{
 			buf[i - 1] = 0;
 			if (*buf)
 				transform_cmdline(buf, my_env);
-			reset_buf(buf, &i);
+			reset_buf(buf, &i);//make reset buf_len ??
 			print_prompt();
 		}
 	}

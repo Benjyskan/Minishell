@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 11:48:19 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/11 18:04:01 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/11 21:06:11 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,20 @@ static void	my_exec(char *prog_path, char **args, char **envp)
 		ERROR_FORK;
 }
 
+void	exec_absolute_path(char **args, t_myenv *my_env)
+{
+	if (!access(args[0], F_OK))
+	{
+		if (!access(args[0], X_OK))
+			my_exec(args[0], args, my_env->envp);
+	}
+	else if (ft_strlen(args[0]) >= PATH_MAX)
+		file_name_too_long(args[0]);
+	else
+		cmd_not_found(args[0]);
+	free_nultab(args);
+}
+
 /*
 ** check if args[0]:
 ** 1. is absolute path
@@ -110,27 +124,11 @@ static void	my_exec(char *prog_path, char **args, char **envp)
 
 void		get_right_prog(char **args, t_myenv *my_env)
 {
-	char	prog_path[PATH_MAX];//TODO: virer PATH_MAX
+	char	prog_path[PATH_MAX];
 
-	if (ft_is_c_in_str(args[0], '/'))//create exec_absloute() ?
+	if (ft_is_c_in_str(args[0], '/'))
 	{
-		if (!access(args[0], F_OK))
-		{
-			if (!access(args[0], X_OK))
-				my_exec(args[0], args, my_env->envp);
-		}
-		else if (ft_strlen(args[0]) >= PATH_MAX)
-		{
-			ft_putendl("HEHEY");
-			file_name_too_long(args[0]);
-		}
-		else
-		{
-			ft_putnbr(ft_strlen(args[0]));
-			ft_putendl("UGUGUGU");
-			cmd_not_found(args[0]);
-		}
-		free_nultab(args);
+		exec_absolute_path(args, my_env);
 		return ;
 	}
 	if (check_built_in(args, my_env))
