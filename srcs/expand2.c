@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:24:07 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/11 20:50:56 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/12 13:36:23 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,4 @@ int		check_dollars_undefined(char *arg, char *tmp)
 	ft_memdel((void*)&tmp);
 	ft_memdel((void*)&arg);
 	return (0);
-}
-
-void	set_i_j(int *i, int i_val, int *j, int j_val)
-{
-	*i = i_val;
-	*j = j_val;
 }

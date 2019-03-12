@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp_until_c.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 18:18:18 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/12 18:18:48 by penzo            ###   ########.fr       */
+/*   Created: 2019/03/12 14:11:29 by penzo             #+#    #+#             */
+/*   Updated: 2019/03/12 14:12:16 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	free_nultab(char **tab)
+int		ft_strcmp_until_c(char *s1, char *s2, char c)
 {
 	int		i;
 
-	if (!tab)
-		return ;
+	if (!s1 && !s2)
+		return (0);
+	if (!s1 || !s2)
+		return (-1);
 	i = -1;
-	while (tab[++i])
-		ft_memdel((void*)&tab[i]);
-	ft_memdel((void*)&tab);
-}
-
-void	free_double_nultab(char **tab1, char **tab2)
-{
-	free_nultab(tab1);
-	free_nultab(tab2);
-}
-
-int		free_nultab_ret_int(char **tab, int ret)
-{
-	free_nultab(tab);
-	return (ret);
+	while (s1[++i] != c)
+	{
+		if (s1[i] != s2[i])
+			return (1);
+	}
+	if (s2[i] == c)
+		return (0);
+	return (1);
 }

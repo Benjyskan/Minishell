@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:23:11 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 22:32:17 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/12 18:51:33 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,35 +51,13 @@ char	**dup_env(char **env)
 		ERROR_MEM;
 	new_env[tab_len] = 0;
 	i = -1;
-	while(++i < tab_len)
+	while (++i < tab_len)
 	{
 		if (!(new_env[i] = ft_strdup(env[i])))
 			ERROR_MEM;
 	}
 	return (new_env);
 }
-
-/*
-** is_no_cmd_left start on args[1]
-** return 1 if it remain cmds in args
-*/
-
-int		is_no_cmd_left(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[++i])
-	{
-		if (args[i][0] != '-' && !ft_strchr(args[i], '='))
-				return (0);
-	}
-	return (1);
-}
-/*
-** is_last_cmd return 1 if no cmd are left
-** return 0 otherwise
-*/
 
 int		is_last_cmd(char **args)
 {

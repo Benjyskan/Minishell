@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 20:19:22 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/10 14:13:21 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/12 13:49:57 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static char	*strjoin_equal(char *s1, char *s2)
 ** syntax: setenv TOTO TATA
 */
 
-//void		my_setenv(char **args, char ***env)
 void		my_setenv(char **args, t_myenv *my_env)
 {
 	char	*env_var;

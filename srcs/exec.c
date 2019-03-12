@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 11:48:19 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/11 21:06:11 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/12 18:17:20 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,25 @@ static int	cycle_through_prog_paths(char *prog_path, char **env_paths,
 			char *prog_name)
 {
 	int		i;
-	char	path[PATH_MAX];//TODO: tej PATH_MAX
+	char	path[PATH_MAX];
 
 	i = -1;
 	while (env_paths[++i])
 	{
 		if (ft_strlen(env_paths[i]) + ft_strlen(prog_name) >= PATH_MAX)
-		{
-			free_nultab(env_paths);
-			return (-2);
-		}
+			return (free_nultab_ret_int(env_paths, -2));
 		append_path_nomalloc(env_paths[i], prog_name, path);
 		if (!access(path, F_OK))
 		{
 			if (!access(path, X_OK))
 			{
 				prog_path = ft_strcpy(prog_path, path);
-				free_nultab(env_paths);
-				return (1);
+				return (free_nultab_ret_int(env_paths, 1));
 			}
 			else if (access(path, X_OK))
 			{
 				exec_permission_denied(path);
-				free_nultab(env_paths);
-				return (-1);
+				return (free_nultab_ret_int(env_paths, -3));
 			}
 		}
 	}
@@ -70,14 +65,13 @@ static int	search_prog(char *prog_path, char **args, char **envp)
 	if (!(env_paths = get_all_env_path(get_line_from_env("PATH", envp)))
 			|| (ft_strlen(get_line_from_env("PATH", envp)) == 0))
 		replace_path_with_cwd(&env_paths);
-	//if (cycle_through_prog_paths(prog_path, env_paths, args[0]))
-	//	return (1);
 	ret = cycle_through_prog_paths(prog_path, env_paths, args[0]);
-	//free_nultab(env_paths);
 	if (ret == -1 || ret == 1)
 		return (1);
 	else if (ret == -2)
 		return (-1);
+	else if (ret == -3)
+		return (-3);
 	return (0);
 }
 
@@ -101,12 +95,14 @@ static void	my_exec(char *prog_path, char **args, char **envp)
 		ERROR_FORK;
 }
 
-void	exec_absolute_path(char **args, t_myenv *my_env)
+void		exec_absolute_path(char **args, t_myenv *my_env)
 {
 	if (!access(args[0], F_OK))
 	{
 		if (!access(args[0], X_OK))
 			my_exec(args[0], args, my_env->envp);
+		else
+			exec_permission_denied(args[0]);
 	}
 	else if (ft_strlen(args[0]) >= PATH_MAX)
 		file_name_too_long(args[0]);
@@ -125,6 +121,7 @@ void	exec_absolute_path(char **args, t_myenv *my_env)
 void		get_right_prog(char **args, t_myenv *my_env)
 {
 	char	prog_path[PATH_MAX];
+	int		ret;
 
 	if (ft_is_c_in_str(args[0], '/'))
 	{
@@ -136,12 +133,12 @@ void		get_right_prog(char **args, t_myenv *my_env)
 		free_nultab(args);
 		return ;
 	}
-	//if (search_prog(prog_path, args, my_env->envp))
-	if (search_prog(prog_path, args, my_env->envp) == 1)
+	ret = search_prog(prog_path, args, my_env->envp);
+	if (ret == 1)
 		my_exec(prog_path, args, my_env->envp);
-	else if (search_prog(prog_path, args, my_env->envp) == -1)
-		file_name_too_long(args[0]);//bof
-	else
+	else if (ret == -1)
+		file_name_too_long(args[0]);
+	else if (ret == 0)
 		cmd_not_found(args[0]);
 	free_nultab(args);
 }

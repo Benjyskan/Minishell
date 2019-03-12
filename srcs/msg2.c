@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 17:01:00 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/11 15:59:34 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/12 17:02:16 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,6 @@ void	print_env_usage(char c)
 	ft_putchar_fd('\n', 2);
 	ft_putendl_fd("usage: env [-i] [name=value ...] [utility [argument ...]]"
 			, 2);
-}
-
-void	no_such_file(char **args, char *arg, char **env)//??
-{
-	(void)env;
-	ft_putstr_fd(args[0], 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putendl_fd(": No such file or directory", 2);
 }
 
 void	file_name_too_long(char *file_name)

@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 11:19:00 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/11 19:59:14 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/12 13:44:02 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		count_args(char **args)
 ** send it to get_right_prog()
 ** and return to the loop
 **
-** the "if (!*args)" is for blank line
+** the "if (!*args)" is for blank lines
 */
 
 void	transform_cmdline(char *line, t_myenv *my_env)
@@ -47,4 +47,25 @@ void	transform_cmdline(char *line, t_myenv *my_env)
 		return ;
 	}
 	get_right_prog(args, my_env);
+}
+
+/*
+** fill the buffer bytes per bytes
+** reallocif necessary
+*/
+
+void	fill_buf(char **buf, int *i, char c, int *buf_len)
+{
+	char	*tmp;
+
+	if (*i == (*buf_len))
+	{
+		if (!(tmp = ft_strnew(*buf_len * 2)))
+			ERROR_MEM;
+		*buf_len *= 2;
+		ft_strcpy(tmp, *buf);
+		ft_memdel((void*)&(*buf));
+		*buf = tmp;
+	}
+	(*buf)[(*i)++] = c;
 }

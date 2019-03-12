@@ -8,7 +8,7 @@
 # include <limits.h>
 # include <sys/syslimits.h>
 # include "libft.h"
-# define BUF_SIZE 128 //TODO
+# define BUF_SIZE 2 //TODO
 # define SHELL_NAME "my_sh"
 # define ERROR_MEM exit(1) //naze
 # define ERROR_READ exit(1) //naze
@@ -34,6 +34,7 @@ int				check_built_in(char **args, t_myenv *my_env);
 */
 
 void			my_env_function(char **args, t_myenv *my_env);
+int				exec_env(char **short_cmd, t_myenv *tmp_env, int mod);
 //void			my_env_function(char **args, char **env);
 
 /*
@@ -131,6 +132,8 @@ void			print_prompt(void);
 */
 
 void			free_nultab(char **tab);
+void			free_double_nultab(char **tab1, char ** tab2);
+int				free_nultab_ret_int(char **tab, int ret);
 
 /*
 ** shlvl.c
@@ -158,6 +161,7 @@ void			my_unsetenv(char **args, char ***env);
 
 int				expand_vars(char **args, char **env);
 void			transform_cmdline(char *line, t_myenv *my_env);
+void			fill_buf(char **buf, int *i, char c, int *buf_len);
 
 /*
 ** strsplit_multi.c
@@ -172,7 +176,6 @@ char			**strsplit_multi(char const *s, char *separators);
 int				expand_vars(char **args, char **env);
 char			*get_var_name(char *needle);
 int				check_dollars_undefined(char *arg, char *tmp);
-void			set_i_j(int *i, int i_val, int *j, int j_val);
 
 /*
 ** exec.c
@@ -189,4 +192,14 @@ void			get_right_prog(char **args, t_myenv *my_env);
 */
 
 void			replace_path_with_cwd(char ***env_paths);
+
+/*
+** for_the_norm.c
+*/
+
+void			reset_buf(char *buf, int *i, int *buf_len);
+void			init_loop(int *i, int *ret, int *buf_len);
+void			set_i_j(int *i, int i_val, int *j, int j_val);
+void			my_env_norm(char **cur_envcmd, t_myenv *tmp_env);
+char			**env_i_options(char **env);
 #endif

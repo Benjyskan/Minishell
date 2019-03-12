@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:19:12 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/11 19:51:46 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/12 18:49:05 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void		cd_dash(char **args, t_myenv *my_env)
 	}
 	else
 		cd_invalid_option(args, my_env);
-	ft_memdel((void*)&my_env->old_pwd);
+	if (my_env->old_pwd)//test
+		ft_memdel((void*)&my_env->old_pwd);
 	my_env->old_pwd = ft_strdup(cwd);
 	set_env_pwd(&my_env->envp);
 	ft_memdel((void*)&cwd);
