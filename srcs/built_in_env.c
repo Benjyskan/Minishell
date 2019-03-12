@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:22:36 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/12 16:22:39 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/12 19:10:50 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void		my_env_function(char **args, t_myenv *my_env)
 
 	if (!(tmp_env.envp = dup_env(my_env->envp)))
 		ERROR_MEM;
+	if (!(tmp_env.old_pwd = ft_strnew(0)))//test
+		ERROR_MEM;
 	i = 0;
 	while (!is_last_cmd(args + i))
 	{
@@ -122,4 +124,7 @@ void		my_env_function(char **args, t_myenv *my_env)
 		get_right_prog(cur_envcmd, &tmp_env);
 	}
 	free_nultab(tmp_env.envp);
+	//
+	free(tmp_env.old_pwd);//test
+	//
 }
