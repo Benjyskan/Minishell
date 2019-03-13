@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/13 19:58:18 by penzo             #+#    #+#              #
-#    Updated: 2019/03/13 20:55:29 by penzo            ###   ########.fr        #
+#    Updated: 2019/03/13 20:58:34 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,11 +44,11 @@ all: $(NAME)
 libft/libft.a:
 	$(MAKE) -C libft
 
-fsa: $(OBJ)
+fsa: $(OBJ) libft/libft.a Makefile
 	$(CC) $(CFLAGS) $(FSA_FLAGS) $(LIB) $^ -o $(NAME)
 	./$(NAME)
 
-val: $(OBJ)
+val: $(OBJ) libft/libft.a Makefile
 	$(CC) $(CFLAGS) $(VAL_FLAGS) $(LIB) $^ -o $(NAME)
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all \
 		--show-reachable=no ./$(NAME)
