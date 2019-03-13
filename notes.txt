@@ -1,4 +1,0 @@
-echo ~"penzo"
-echo ~"penz"
-cd ~/penzo/minishell
-cd ~"penzo"
