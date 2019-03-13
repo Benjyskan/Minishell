@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/13 19:58:18 by penzo             #+#    #+#              #
-#    Updated: 2019/03/13 20:17:32 by penzo            ###   ########.fr        #
+#    Updated: 2019/03/13 20:21:21 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,10 +61,12 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	$(CC) $(CFLAGS) $(INCL) -o $@ -c $<
 
 clean:
+	$(MAKE) clean -C libft
 	rm -fv $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 
 fclean: clean
+	$(MAKE) fclean -C libft
 	rm -fv $(NAME)
 
 re:
