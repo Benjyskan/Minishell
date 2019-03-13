@@ -67,6 +67,7 @@ int				my_cd(char **args, t_myenv *my_env);
 void			cd_not_found_str(char *str);
 void			cd_permi_denied(char **args, char **env);
 void			cd_invalid_option(char **args, t_myenv *my_env);
+void			cd_not_found_str_free(char *str, char *to_free);
 
 /*
 ** str_utils.c
@@ -134,6 +135,7 @@ void			print_prompt(void);
 void			free_nultab(char **tab);
 void			free_double_nultab(char **tab1, char ** tab2);
 int				free_nultab_ret_int(char **tab, int ret);
+void			free_env_and_nultab(t_myenv *my_env, char **tab);
 
 /*
 ** shlvl.c

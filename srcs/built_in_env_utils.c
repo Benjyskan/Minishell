@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:23:11 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/12 18:58:52 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/13 17:24:54 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,6 @@ char	**dup_env(char **env)
 	}
 	return (new_env);
 }
-
-/*t_myenv	*dup_myenv(t_myenv *my_env)
-{
-	int		tab_len;
-	//char	**new_env;
-	t_myenv	new_myenv;
-	int		i;
-
-	tab_len = get_ntab_len(my_env->envp);
-	if (!(new_myenv.envp = (char**)malloc(sizeof(char**) * (tab_len + 1))))
-		ERROR_MEM;
-	new_myenv.envp[tab_len] = 0;
-	i = -1;
-	while (++i < tab_len)
-	{
-		if (!(new_myenv.envp[i] = ft_strdup(env[i])))
-			ERROR_MEM;
-	}
-	new_myenv
-	return (new_myenv);
-}*/
 
 int		is_last_cmd(char **args)
 {

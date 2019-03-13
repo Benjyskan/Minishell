@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:19:12 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/12 19:16:17 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/13 17:48:28 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static void	set_env_pwd(char ***env)
 	ft_strcpy(new, "PWD=");
 	ft_strcpy(&new[4], cwd);
 	if (i == -1)
+	{
 		*env = add_env_var(new, *env);
+		ft_memdel((void*)&new);
+	}
 	else
 	{
 		ft_memdel((void*)&(*env)[i]);
@@ -43,26 +46,16 @@ void		cd_dash(char **args, t_myenv *my_env)
 {
 	char	*cwd;
 
-	cwd = NULL;
 	if (!(cwd = getcwd(NULL, 0)))
 		ERROR_MEM;
 	if (!my_env->old_pwd)
-	{
-		cd_not_found_str(my_env->old_pwd);
-		ft_memdel((void*)&cwd);
-		return ;
-	}
+		return (cd_not_found_str_free(my_env->old_pwd, cwd));
 	if (ft_strcmp(args[1], "-") == 0)
 	{
 		if (!access(my_env->old_pwd, F_OK))
 			chdir(my_env->old_pwd);
 		else
-		{
-			cd_not_found_str(my_env->old_pwd);
-			ft_memdel((void*)&cwd);
-			return ;//test
-			ft_putendl("ICICICICI");
-		}
+			return (cd_not_found_str_free(my_env->old_pwd, cwd));
 	}
 	else
 		cd_invalid_option(args, my_env);

@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 19:22:36 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/12 19:10:50 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/13 17:38:49 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,8 @@ void		my_env_function(char **args, t_myenv *my_env)
 	char	**cur_envcmd;
 	int		i;
 
-	if (!(tmp_env.envp = dup_env(my_env->envp)))
-		ERROR_MEM;
-	if (!(tmp_env.old_pwd = ft_strnew(0)))//test
+	if (!(tmp_env.envp = dup_env(my_env->envp))
+			|| !(tmp_env.old_pwd = ft_strnew(0)))
 		ERROR_MEM;
 	i = 0;
 	while (!is_last_cmd(args + i))
@@ -112,7 +111,7 @@ void		my_env_function(char **args, t_myenv *my_env)
 		cur_envcmd = get_cur_envcmd(args + i, &tmp_env);
 		i += get_ntab_len(cur_envcmd);
 		if (!exec_env(cur_envcmd, &tmp_env, 0))
-			return (free_double_nultab(tmp_env.envp, cur_envcmd));
+			return (free_env_and_nultab(&tmp_env, cur_envcmd));
 		free_nultab(cur_envcmd);
 	}
 	cur_envcmd = dup_env(args + i);
@@ -123,8 +122,5 @@ void		my_env_function(char **args, t_myenv *my_env)
 		exec_env(cur_envcmd, &tmp_env, 1);
 		get_right_prog(cur_envcmd, &tmp_env);
 	}
-	free_nultab(tmp_env.envp);
-	//
-	free(tmp_env.old_pwd);//test
-	//
+	free_env_and_nultab(&tmp_env, NULL);
 }

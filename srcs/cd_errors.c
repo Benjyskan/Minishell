@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 11:18:12 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/09 11:18:25 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/13 17:43:41 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,13 @@ void	cd_invalid_option(char **args, t_myenv *my_env)
 	ft_putstr_fd(args[1], 2);
 	ft_putendl_fd(" invalid option", 2);
 	ft_putendl_fd("cd: usage: cd [dir]", 2);
+}
+
+void	cd_not_found_str_free(char *str, char *to_free)
+{
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(": cd: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd(": No such file or directory", 2);
+	ft_memdel((void*)&to_free);
 }

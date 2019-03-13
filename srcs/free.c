@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 18:18:18 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/12 18:18:48 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/13 17:21:13 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,11 @@ int		free_nultab_ret_int(char **tab, int ret)
 {
 	free_nultab(tab);
 	return (ret);
+}
+
+void	free_env_and_nultab(t_myenv *my_env, char **tab)
+{
+	ft_memdel((void*)&my_env->old_pwd);
+	free_nultab(my_env->envp);
+	free_nultab(tab);
 }
