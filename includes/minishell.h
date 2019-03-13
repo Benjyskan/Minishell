@@ -6,7 +6,7 @@
 /*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:09:17 by penzo             #+#    #+#             */
-/*   Updated: 2019/03/13 18:09:24 by penzo            ###   ########.fr       */
+/*   Updated: 2019/03/13 18:11:16 by penzo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <limits.h>
 # include <sys/syslimits.h>
 # include "libft.h"
-# define BUF_SIZE 2
+# define BUF_SIZE 128
 # define SHELL_NAME "my_sh"
 # define ERROR_MEM exit(1)
 # define ERROR_READ exit(1)
