@@ -6,7 +6,7 @@
 #    By: penzo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/13 19:58:18 by penzo             #+#    #+#              #
-#    Updated: 2019/03/13 20:23:20 by penzo            ###   ########.fr        #
+#    Updated: 2019/03/13 20:55:29 by penzo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ clean:
 
 fclean: clean
 	$(MAKE) fclean -C libft
+	rm -rfv $(NAME).dSYM
 	rm -fv $(NAME)
 
 re: fclean all
