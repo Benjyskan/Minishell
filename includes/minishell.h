@@ -1,21 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: penzo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/13 18:09:17 by penzo             #+#    #+#             */
+/*   Updated: 2019/03/13 18:09:24 by penzo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# include <stdio.h>//tejme
 
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <sys/syslimits.h>
 # include "libft.h"
-# define BUF_SIZE 2 //TODO
+# define BUF_SIZE 2
 # define SHELL_NAME "my_sh"
-# define ERROR_MEM exit(1) //naze
-# define ERROR_READ exit(1) //naze
-# define ERROR_EXEC exit(1) //naze
-//# define ERROR_EXEC ft_putendl("Error exec (macro)") //naze
-# define ERROR_FORK exit(1) //naze
-# define ERROR_ENV exit(1) //naze
+# define ERROR_MEM exit(1)
+# define ERROR_READ exit(1)
+# define ERROR_EXEC exit(1)
+# define ERROR_FORK exit(1)
+# define ERROR_ENV exit(1)
 
 typedef struct	s_myenv
 {
@@ -35,7 +44,6 @@ int				check_built_in(char **args, t_myenv *my_env);
 
 void			my_env_function(char **args, t_myenv *my_env);
 int				exec_env(char **short_cmd, t_myenv *tmp_env, int mod);
-//void			my_env_function(char **args, char **env);
 
 /*
 ** built_in_env_utils.c
@@ -74,7 +82,6 @@ void			cd_not_found_str_free(char *str, char *to_free);
 */
 
 int				is_str_digit(char *str);
-//void			reset_buf(char *buf, int *i);
 void			append_path_nomalloc(char *env_path, char *prog_name,
 		char *result);
 void			strjoin_equal_nomalloc(char *s1, char *s2, char *result);
@@ -93,7 +100,6 @@ void			var_is_not_alphanum(char *prog_name);
 void			too_many_args(char *prog_name);
 void			too_few_args(char *prog_name);
 void			print_env_usage(char c);
-void			no_such_file(char **args, char *arg, char **env);//??
 void			file_name_too_long(char *file_name);
 
 /*
@@ -111,7 +117,6 @@ void			exit_numeric(char **args, t_myenv *my_env);
 char			*get_line_from_env(char *search, char **env);
 int				get_linenumber_from_env(char *search, char **env);
 char			**get_all_env_path(char *path);
-//void			add_env_var(char *new_var, char **envp);
 char			**add_env_var(char *new_var, char **envp);
 char			**replace_env_var(char *new_line, int index, char **env);
 
@@ -133,7 +138,7 @@ void			print_prompt(void);
 */
 
 void			free_nultab(char **tab);
-void			free_double_nultab(char **tab1, char ** tab2);
+void			free_double_nultab(char **tab1, char **tab2);
 int				free_nultab_ret_int(char **tab, int ret);
 void			free_env_and_nultab(t_myenv *my_env, char **tab);
 
@@ -147,7 +152,6 @@ void			set_shlvl(char ***envp);
 ** built_in_setenv.c
 */
 
-//void			my_setenv(char **args, char ***env);
 void			my_setenv(char **args, t_myenv *my_env);
 
 /*
@@ -183,11 +187,8 @@ int				check_dollars_undefined(char *arg, char *tmp);
 ** exec.c
 */
 
-//void			my_exec(char *prog_path, char **args, char **envp);
-//int				search_prog(char *prog_path, char **args, char **envp);
-void			env_exec(char **args, t_myenv *my_env);//same func as get_cmd_args ??
+void			env_exec(char **args, t_myenv *my_env);
 void			get_right_prog(char **args, t_myenv *my_env);
-//void			env_exec(char **args, char **env);
 
 /*
 ** minishell.c
